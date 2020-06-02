@@ -14,13 +14,20 @@ print("Rank (Dimension) : ", x.ndimension())
 # Add Dimension Space named 1 in the First Place, 0.
 x = torch.unsqueeze(x, 0)
 print(x)
-print("Size : ", x.size())
+print("Size (UnSqueeze) : ", x.size())
 print("Shape : ", x.shape)
 print("Rank (Dimension) : ", x.ndimension())
 
 # Reduce Rank
 x = torch.squeeze(x)
 print(x)
-print("Size : ", x.size())
+print("Size (Squeeze) : ", x.size())
+print("Shape : ", x.shape)
+print("Rank (Dimension) : ", x.ndimension())
+
+# View How much Tensor Size I have.
+x = x.view(9)
+print(x)
+print("Size (View) : ", x.size())
 print("Shape : ", x.shape)
 print("Rank (Dimension) : ", x.ndimension())
