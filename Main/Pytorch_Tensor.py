@@ -31,3 +31,13 @@ print(x)
 print("Size (View) : ", x.size())
 print("Shape : ", x.shape)
 print("Rank (Dimension) : ", x.ndimension())
+
+# It will show Error because there is no
+# Number of Element of Tensor.
+try:
+    x = x.view(2, 4)
+except Exception as e:
+    # But it will show that it is wrong that
+    # Adding some Element which is not existing
+    # into the Number of Element of Tensor.
+    print(e)
