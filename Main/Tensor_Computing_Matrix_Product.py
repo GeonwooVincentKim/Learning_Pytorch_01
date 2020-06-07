@@ -10,3 +10,22 @@ print("w size : ", w.size())
 print("x size : ", x.size())
 print("w : ", w)
 print("x : ", x)
+
+# Define a Variable named "b"
+# which is used in the Matrix Operation
+# in addtion to the Matrix Product.
+b = torch.randn(5, 2, dtype=torch.float)
+print("b size : ", b.size())
+print("b : ", b)
+
+# Execute Matrix Product by using torch.mm() function.
+# w's Column is 5, and x's Row is 2,
+# Which mean shape is [5, 2]
+wx = torch.mm(w, x)
+print("ws Size : ", wx.size())
+print("wx :", wx)
+
+# Adding b Matrix Element to the wx Matrix Element.
+result = wx + b
+print("result size : ", result.size())
+print("result : ", result)
