@@ -55,8 +55,8 @@ for i in range(0, 20000):
     with torch.no_grad():
         random_tensor = random_tensor - lr * random_tensor.grad
 
-        if i % 1000 == 0:
-            print("Loss at {} = {}".format(i, loss.item()))
+    if i % 1000 == 0:
+        print("Loss at {} = {}".format(i, loss.item()))
 
-    # Restored Image Visualization
-    plt.imshow(random_tensor.view(100, 100).data)
+# Restored Image Visualization
+plt.imshow(random_tensor.view(100, 100).data)
