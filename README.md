@@ -20,3 +20,12 @@ Using Anaconda3 Version 1.9.12 and Pycharm 2020.01 to learn how to use Pytorch.
        
 
  - 2. Dimension is one of the Mathematical Conception that is really needs in Pytorch Code. 
+
+# Gradient Descent Methods
+- 1. Gradient Descent is a method of grabbing a specific point X, calculating the slope of the cost function, and changing 
+     the value of X according to the slope.
+     
+     - Before studying Gradient Descent Methods, you should know about what cost function meaning and what does cost function
+       stands for. The meaning of Cost Function is a function that corresponds to the minimum production cost at a certain output.
+       
+     - The other meaning of Gradient Descent Methods is Linear Regression.
