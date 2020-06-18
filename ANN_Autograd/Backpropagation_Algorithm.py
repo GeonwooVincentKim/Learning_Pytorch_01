@@ -7,24 +7,35 @@ import matplotlib.pyplot as plt
 import torch.nn.functional as F
 
 # Number of Dimension
-n_dim = 2
+# Only Possible to input 2.
 
-# Now you make Clusters to find out where cluster location
-# which is included data .
-# Make Training Value which is defined as X and Y.
-# make_blobs() is a function which is imported from Scikit-Learn Library.
-x_train, y_train = make_blobs(
-    n_samples=80, n_features=n_dim,
-    centers=[[1, 1], [-1, -1], [1, -1], [-1, 1]],
-    shuffle=True, cluster_std=0.3
-)
+n_dim = int(input("Please Input Dimension No.2. (Only Number)"))
 
-# Make Testing Value which is defined as X and Y.
-x_test, y_test = make_blobs(
-    n_samples=20, n_features=n_dim,
-    centers=[[1, 1], [-1, -1], [1, -1], [-1, 1]],
-    shuffle=True, cluster_std=0.3
-)
+if n_dim is 2:
+    # Now you make Clusters to find out where cluster location
+    # which is included data .
+    # Make Training Value which is defined as X and Y.
+    # make_blobs() is a function which is imported from Scikit-Learn Library.
+    x_train, y_train = make_blobs(
+        n_samples=80, n_features=n_dim,
+        centers=[[1, 1], [-1, -1], [1, -1], [-1, 1]],
+        shuffle=True, cluster_std=0.3
+    )
+
+    # Make Testing Value which is defined as X and Y.
+    x_test, y_test = make_blobs(
+        n_samples=20, n_features=n_dim,
+        centers=[[1, 1], [-1, -1], [1, -1], [-1, 1]],
+        shuffle=True, cluster_std=0.3
+    )
+
+else:
+    try:
+        print(n_dim)
+
+    except:
+        TypeError("You might be not type No.2. "
+                  "Please reboot program and input No.2 again.")
 
 
 # Implement label_map() function to change all of the Data
@@ -54,7 +65,7 @@ def vis_data(x, y=None, c='r'):
             plt.plot(x_[0], x_[1], '*', markerfacecolor='none',
                      markeredgecolor=c)
         else:
-            plt.plot(x_[0], x_[1], c+'o' if y_ == 0 else c+'+')
+            plt.plot(x_[0], x_[1], c + 'o' if y_ == 0 else c + '+')
 
 
 plt.figure()
