@@ -71,3 +71,10 @@ def vis_data(x, y=None, c='r'):
 plt.figure()
 vis_data(x_train, y_train, c='r')
 plt.show()
+
+# Convert the Numpy Vector format data you just created
+# into Pytorch Tensor format.
+x_train = torch.FloatTensor(x_train)
+x_test = torch.FloatTensor(x_test)
+y_train = torch.FloatTensor(y_train)
+y_tes = torch.FloatTensor(y_test)
