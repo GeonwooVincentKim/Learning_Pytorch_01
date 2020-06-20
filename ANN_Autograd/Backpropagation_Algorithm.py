@@ -78,3 +78,30 @@ x_train = torch.FloatTensor(x_train)
 x_test = torch.FloatTensor(x_test)
 y_train = torch.FloatTensor(y_train)
 y_tes = torch.FloatTensor(y_test)
+
+
+# Define Neural Network Model, 'torch.nn.Module'.
+class NeuralNet(torch.nn.Module):
+    """
+    Bring nn.Module Class Attribute when call super() function.
+    """
+    def __init__(self, input_size, hidden_size):
+        super(NeuralNet, self).__init__()
+        self.input_size = input_size
+        self.hidden_size = hidden_size
+
+        """
+        Defines the operations that the input data 
+        goes through the Neural Network.
+        
+        ReLU outputs 0 if the input value is less than 0, and outputs the input value 
+        if it is greater than 0.
+        
+        Sigmoid returns between 0 and 1. 
+        
+        """
+        self.linear_1 = torch.nn.Linear(self.input_size, self.hidden_size)
+        self.relu = torch.nn.ReLU()
+        self.linear_2 = torch.nn.Linear(self.hidden_size, 1)
+        self.sigmoid = torch.nn.Sigmoid()
+
