@@ -84,6 +84,9 @@ y_tes = torch.FloatTensor(y_test)
 class NeuralNet(torch.nn.Module):
     """
     Bring nn.Module Class Attribute when call super() function.
+
+    :input_size
+        Dimension of Data input in the Neural Network.
     """
     def __init__(self, input_size, hidden_size):
         super(NeuralNet, self).__init__()
@@ -91,17 +94,33 @@ class NeuralNet(torch.nn.Module):
         self.hidden_size = hidden_size
 
         """
-        Defines the operations that the input data 
+        1. Defines the operations that the input data 
         goes through the Neural Network.
         
-        ReLU outputs 0 if the input value is less than 0, and outputs the input value 
+        2. ReLU outputs 0 if the input value is less than 0, and outputs the input value 
         if it is greater than 0.
         
-        Sigmoid returns between 0 and 1. 
+        3. Sigmoid returns between 0 and 1. 
         
+        4. If you increase the Number of dimension, 
+        the variable named linear will increase with the Number of Dimension.
+        Which mean if Number of Dimension is 3,
+        the the linear variable will also being 3.
         """
         self.linear_1 = torch.nn.Linear(self.input_size, self.hidden_size)
         self.relu = torch.nn.ReLU()
         self.linear_2 = torch.nn.Linear(self.hidden_size, 1)
         self.sigmoid = torch.nn.Sigmoid()
+
+    # Implement forward() function that executes movements
+    # defined from init() function.
+    def forward(self, input_tensor):
+        linear1 = self.linear_1(input_tensor)
+        relu = self.relu(linear1)
+
+        linear2 = self.linear_2(relu)
+        output = self.sigmoid(linear2)
+        return output
+
+
 
