@@ -88,6 +88,7 @@ class NeuralNet(torch.nn.Module):
     :input_size
         Dimension of Data input in the Neural Network.
     """
+
     def __init__(self, input_size, hidden_size):
         super(NeuralNet, self).__init__()
         self.input_size = input_size
@@ -101,6 +102,10 @@ class NeuralNet(torch.nn.Module):
         if it is greater than 0.
         
         3. Sigmoid returns between 0 and 1. 
+        -> It is better to use ReLU to classify return 0 or 1. 
+           correctly.
+        -> Passing through the sigmoid() function, which is limited
+           to any number between 0 and 1, you can see how close the result is to 0 or 1. 
         
         4. If you increase the Number of dimension, 
         the variable named linear will increase with the Number of Dimension.
@@ -123,4 +128,108 @@ class NeuralNet(torch.nn.Module):
         return output
 
 
+# Generate the real Neural Network and define
+# various variable and algorithm for Deep Learning.
+model = NeuralNet(2, 5)
+learning_rate = 0.03
+criterion = torch.nn.BCELoss()
 
+"""
+  1. Use Binary Cross Entropy for set Learning Rate and
+     prepare for Error Function.
+  
+  2. Now you decide how much Whole Study Data
+     would you like to input into Model.
+     
+  3. Make sure you should set epoch not too small,
+     but not too big.
+     If you set epoch small, it doesn't studied well,
+     otherwise if you set epoch big, it takes lots of times
+     to execute Model training such a long time.
+"""
+epochs = 2000
+
+"""
+  1. It could be better to choose SGD(Stochastic gradient descent)
+     Algorithm for Learning Data.
+     
+  2. SGD is not different between optimizing Method.
+  
+  3. The optimizer update the Weight by the Learning Rate each time
+     the step() function is called.
+     So we Input Weight and Learning Rate into inside of Model 
+     which is already extracted.
+"""
+optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
+
+"""
+  1. Test the Model Performance without any training.
+  
+  2. Get some Error after call squeeze() function to match 
+     Model result and Label results.
+"""
+model.eval()
+test_loss_before = criterion(model(x_test).sqeeuze(), y_test)
+print('Before Training, test loss is {}'.format(test_loss_before.item()))
+
+""" 
+  Neural Network Learning
+"""
+# Create a 'For' Statement that repeats as many Epochs.
+for epoch in range(epochs):
+    # Change to Training mode by calling train() function.
+    model.train()
+
+    # Set Gradient Value as 0 by calling zero_grad() function
+    # to calculate new Gradient values every Epochs.
+    optimizer.zero_grad()
+
+    # Calculate Result Value by input Training Output(Data)
+    # that previously generated Model.
+    train_output = model(x_train)
+
+    # Calculate Error and Make Result Value dimension and
+    # Label Dimension same.
+    train_loss = criterion(train_output.sqeeze(), y_train)
+
+    # Check Training well by print out loss every 100 Epochs.
+    if epoch % 100 == 0:
+        print('Train loss at {} is {}'.format(epoch, train_loss.item()))
+
+    """
+      Differentiate the error function by weight to find the direction 
+      in which the error is the minimum, and move the model in 
+      that direction as much as the Learning rate.
+    """
+    train_loss.backward()
+    optimizer.step()
+
+    """
+      Change Model as an Test Mode by using 'x_data' and 'y_data'
+      to get Error.
+    """
+    model.eval()
+    test_loss = criterion(torch.squeeze(model(x_test)), y_test)
+    print('After Training, test loss is {}'.format(test_loss.item()))
+
+    """
+      A model.pt file containing the weights of 
+      the learned Neural Network is created.
+    """
+    torch.save(model.state_dict(), './model.pt')
+    print('state_dict format of the model : {}'.format(model.state_dict()))
+
+    new_model = NeuralNet(2, 5)
+    new_model.load_state_dict(torch.load('./model.pt'))
+
+    """
+      Load stored weights and apply them to new models 
+      (Transfer Learning).
+      
+      You can find out the Probability of Label 1 is 94 %
+      by input Vector[-1, 1] into the New Model. 
+    """
+    new_model.eval()
+    print('The probability that Vector [-1, 1] will '
+          'have Label 1 is {}'.
+          format(new_model(torch.FloatTensor([-1, 1])).item()))
