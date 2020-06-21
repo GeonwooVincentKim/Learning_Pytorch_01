@@ -9,33 +9,34 @@ import torch.nn.functional as F
 # Number of Dimension
 # Only Possible to input 2.
 
-n_dim = int(input("Please Input Dimension No.2. (Only Number)"))
+# n_dim = int(input("Please Input Dimension No.2. (Only Number)"))
+n_dim = 2
 
-if n_dim is 2:
-    # Now you make Clusters to find out where cluster location
-    # which is included data .
-    # Make Training Value which is defined as X and Y.
-    # make_blobs() is a function which is imported from Scikit-Learn Library.
-    x_train, y_train = make_blobs(
-        n_samples=80, n_features=n_dim,
-        centers=[[1, 1], [-1, -1], [1, -1], [-1, 1]],
-        shuffle=True, cluster_std=0.3
-    )
+# if n_dim is 2:
+# Now you make Clusters to find out where cluster location
+# which is included data .
+# Make Training Value which is defined as X and Y.
+# make_blobs() is a function which is imported from Scikit-Learn Library.
+x_train, y_train = make_blobs(
+    n_samples=80, n_features=n_dim,
+    centers=[[1, 1], [-1, -1], [1, -1], [-1, 1]],
+    shuffle=True, cluster_std=0.3
+)
 
-    # Make Testing Value which is defined as X and Y.
-    x_test, y_test = make_blobs(
-        n_samples=20, n_features=n_dim,
-        centers=[[1, 1], [-1, -1], [1, -1], [-1, 1]],
-        shuffle=True, cluster_std=0.3
-    )
+# Make Testing Value which is defined as X and Y.
+x_test, y_test = make_blobs(
+    n_samples=20, n_features=n_dim,
+    centers=[[1, 1], [-1, -1], [1, -1], [-1, 1]],
+    shuffle=True, cluster_std=0.3
+)
 
-else:
-    try:
-        print(n_dim)
-
-    except:
-        TypeError("You might be not type No.2. "
-                  "Please reboot program and input No.2 again.")
+# else:
+#     try:
+#         print(n_dim)
+#
+#     except:
+#         TypeError("You might be not type No.2. "
+#                   "Please reboot program and input No.2 again.")
 
 
 # Implement label_map() function to change all of the Data
@@ -72,12 +73,14 @@ plt.figure()
 vis_data(x_train, y_train, c='r')
 plt.show()
 
+
 # Convert the Numpy Vector format data you just created
 # into Pytorch Tensor format.
 x_train = torch.FloatTensor(x_train)
+print(x_train.shape)
 x_test = torch.FloatTensor(x_test)
 y_train = torch.FloatTensor(y_train)
-y_tes = torch.FloatTensor(y_test)
+y_test = torch.FloatTensor(y_test)
 
 
 # Define Neural Network Model, 'torch.nn.Module'.
@@ -169,7 +172,7 @@ optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
      Model result and Label results.
 """
 model.eval()
-test_loss_before = criterion(model(x_test).sqeeuze(), y_test)
+test_loss_before = criterion(model(x_test).squeeze(), y_test)
 print('Before Training, test loss is {}'.format(test_loss_before.item()))
 
 """ 
@@ -190,7 +193,7 @@ for epoch in range(epochs):
 
     # Calculate Error and Make Result Value dimension and
     # Label Dimension same.
-    train_loss = criterion(train_output.sqeeze(), y_train)
+    train_loss = criterion(train_output.squeeze(), y_train)
 
     # Check Training well by print out loss every 100 Epochs.
     if epoch % 100 == 0:
