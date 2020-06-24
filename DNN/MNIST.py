@@ -151,3 +151,19 @@ CLASSES = {
 for label in labels:
     index = label.item()
     print(CLASSES[index])
+
+"""
+  Check individual images.
+  
+  1. Create a Numpy Matrix that can be used 
+  in Matplotlib by applying squeeze() and 
+  numpy() functions.
+  
+  2. Replace the Label Number with a Recognizable Characters.
+"""
+idx = 1
+item_img = images[idx]
+item_npimg = item_img.squeeze().numpy()
+plt.title(CLASSES[labels[idx].item()])
+plt.imshow(item_npimg, cmap='gray')
+plt.show()
