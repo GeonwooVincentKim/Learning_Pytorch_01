@@ -53,3 +53,29 @@ testset = datasets.FashionMNIST(
     download=True,
     transform=transform
 )
+
+"""
+  1. The meaning of batch_size is the Number of 
+  Data processed at once.
+  
+  2. If batch_size is 16, it reads 16 image per
+  iteration. 
+  
+  If you have enough free memory space on your computer, 
+  you can do it bigger, or if you don't have enough, 
+  you can do less.
+  
+  3. Put the loaded DataSet before the Data Loader parameter 
+  and specify Batch_size.
+"""
+batch_size = 16
+
+train_loader = data.DataLoader(
+    dataset=trainset,
+    batch_size=batch_size
+)
+
+test_loader = data.DataLoader(
+    dataset=testset,
+    batch_size=batch_size
+)
