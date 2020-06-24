@@ -59,7 +59,8 @@ testset = datasets.FashionMNIST(
   Data processed at once.
   
   2. If batch_size is 16, it reads 16 image per
-  iteration. 
+  iteration. Which means is batch_size will executes
+  Numbers of Data at once easily.
   
   If you have enough free memory space on your computer, 
   you can do it bigger, or if you don't have enough, 
@@ -79,3 +80,38 @@ test_loader = data.DataLoader(
     dataset=testset,
     batch_size=batch_size
 )
+
+"""
+  1. Now we prepared Data-Loader, so we are able to
+  extract data convenient.
+  
+  2. Just extract one batch to know how does data 
+  looks like.
+  
+  3. One batch of images and labels will contain 
+  16 images and 16 labels desired, 
+  for the batch size you set earlier.
+"""
+dataiter = iter(train_loader)
+images, labels = next(dataiter)
+
+
+"""
+  1. You can make one image which collect all images by 
+  using function, 'utils.make_grid()' from 'torchvision' module.
+  
+  2. At the same time, 'img' is a tensor of Pytorch, so 
+  we should change to Numpy Matrix that can interchange
+  with 'matplotlib' module.
+  
+  3. Matplotlib recognizes a different order of dimensions, 
+  use the np.transpose() function to send the first (0th) dimension 
+  to the back.
+"""
+img = utils.make_grid(images, padding=0)
+npimg = img.numpy()
+plt.figure(figsize=(10, 7))
+plt.imshow(np.transpose(npimg, (1, 2, 0)))
+plt.show()
+
+print(labels)
