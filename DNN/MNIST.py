@@ -115,3 +115,39 @@ plt.imshow(np.transpose(npimg, (1, 2, 0)))
 plt.show()
 
 print(labels)
+
+"""
+  Set Images Classes as
+  1. T-Shirt/top
+  2. Trouser
+  3. Sweater
+  4. Dress
+  5. Coat
+  6. Sandals
+  7. Shirt
+  8. Sneakers
+  9. Backpacks
+  10. Ankle Boots
+  
+  Those Data Set will be given Label as a Number
+  instead of Name. 
+"""
+CLASSES = {
+    0: 'T-shirt/top',
+    1: 'Trouser',
+    2: 'Pullover',
+    3: 'Dress',
+    4: 'Coat',
+    5: 'Sandal',
+    6: 'Shirt',
+    7: 'Sneaker',
+    8: 'Bag',
+    9: 'Ankle Boot'
+}
+
+"""
+  Print Labels English Text.
+"""
+for label in labels:
+    index = label.item()
+    print(CLASSES[index])
