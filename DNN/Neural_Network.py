@@ -72,8 +72,8 @@ def train(model, train_loader, optimizer):
         data, target = data.to(DEVICE), target.to(DEVICE)
 
         # The Gradient are calculate when execute backward() function in Error.
-        # Step() Function are modify weight by defined Algorithm
-        #
+        # Step() Function modifies the weights to match the previously defined algorithm
+        # for the calculated slope.
         optimizer.zero_grad()
         output = model(data)
         loss = F.cross_entropy(output, target)
