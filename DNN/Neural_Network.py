@@ -36,3 +36,47 @@ class Net(nn.Module):
         self.fc1 = nn.Linear(784, 256)
         self.fc2 = nn.Linear(256, 128)
         self.fc3 = nn.Linear(128, 10)
+
+    # Define Further Data flows in forward() function.
+    # Send to GPU Memory to use GPU by settings "cuda".
+    # It will proceed if you don't define or set anything.
+    def forward(self, x):
+        x = x.view(-1, 784)
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
+        x = self.fc3(x)
+        return x
+
+
+# Due to the DEVICE Variable, Send it to the GPU when using CUDA,
+# or to the CPU if not.
+model = Net().to(DEVICE)
+
+# Use optim.SGD algorithm which is the Optimization Algorithm
+# in Pytorch embedded modules.
+optimizer = optim.SGD(model.paraemeters(), lr=0)
+
+
+# Training occurs by repeating the tasks of viewing data
+# and adjusting the weight of the model.
+def train(model, train_loader, optimizer):
+    # Change to Training Mode.
+    model.train()
+
+    # Now we occurred shape of data as
+    # [batch_size, color, height, area].
+    for batch_idx, (data, target) in enumerate(train_loader):
+        # Send Training Data to the Memory of DEVICE.
+        # After then, Stage of Training are similar to
+        # the Foregoing Chapter.
+        data, target = data.to(DEVICE), target.to(DEVICE)
+
+        # The Gradient are calculate when execute backward() function in Error.
+        # Step() Function are modify weight by defined Algorithm
+        #
+        optimizer.zero_grad()
+        output = model(data)
+        loss = F.cross_entropy(output, target)
+        loss.backward()
+        optimizer.step()
+
