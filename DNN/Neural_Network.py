@@ -80,3 +80,16 @@ def train(model, train_loader, optimizer):
         loss.backward()
         optimizer.step()
 
+
+# This is the function which named as performance measurement model.
+# This function will execute evaluation model while measure model.
+def evaluate(model, test_loader):
+    # Change to evaluation model.
+    model.eval()
+    test_loss = 0
+    correct = 0
+
+    with torch.no_grad():
+        for data, target in test_loader:
+            data, target = data.to(DEVICE), target.to(DEVICE)
+            output = model(data)
