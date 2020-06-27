@@ -96,6 +96,8 @@ model = Net().to(DEVICE)
 
 # Use optim.SGD algorithm which is the Optimization Algorithm
 # in Pytorch embedded modules.
+# Make sure you have to set Learning Rate as 0.01.
+# If you set Learning Rate as 0, The Model will not training by itself.
 optimizer = optim.SGD(model.parameters(), lr=0.01)
 
 
