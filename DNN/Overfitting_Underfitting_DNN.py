@@ -26,6 +26,10 @@ BATCH_SIZE = 64
   while using a batch size of 1024 only achieves about 96%. 
   But by increasing the learning rate, using a batch size of 1024 
   also achieves test accuracy of 98%. 
+  (
+    From
+    https://medium.com/mini-distill/effect-of-batch-size-on-training-dynamics-21c14f7a716e#:~:text=Using%20a%20batch%20size%20of,achieves%20test%20accuracy%20of%2098%25.
+  ) 
 """
 # Add Torch_Vision Data-Set in Data-Loader.
 train_loader = torch.utils.data.DataLoader(
