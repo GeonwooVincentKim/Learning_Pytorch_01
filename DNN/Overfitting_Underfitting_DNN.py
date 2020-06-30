@@ -19,7 +19,13 @@ BATCH_SIZE = 64
   UnderFitting
   1. It is the opposite way of OverFitting.
   2. For example, you didn't studied to much, so your Score of Test 
-     is bad. That is an example of UnderFitting. 
+     is bad. That is an example of UnderFitting.
+     
+  BATCH_SIZE 
+  - Using a batch size of 64 (orange) achieves a test accuracy of 98% 
+  while using a batch size of 1024 only achieves about 96%. 
+  But by increasing the learning rate, using a batch size of 1024 
+  also achieves test accuracy of 98%. 
 """
 # Add Torch_Vision Data-Set in Data-Loader.
 train_loader = torch.utils.data.DataLoader(
