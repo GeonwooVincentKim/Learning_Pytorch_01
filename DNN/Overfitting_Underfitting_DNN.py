@@ -1,6 +1,7 @@
 import torch
-import torchvision
+from torchvision import transforms, datasets
 
+BATCH_SIZE = 64
 """
   OverFitting (Example are also included).
   1. Creating a Machine Learning Model can provide 
@@ -20,5 +21,16 @@ import torchvision
   2. For example, you didn't studied to much, so your Score of Test 
      is bad. That is an example of UnderFitting. 
 """
-
+# Add Torch_Vision Data-Set in Data-Loader.
+train_loader = torch.utils.data.DataLoader(
+    datasets.MNIST('./.data',
+                   train=True,
+                   download=True,
+                   transform=transforms.Compose([
+                       transforms.RandomHorizontalFlip(),
+                       transforms.ToTensor(),
+                       transforms.Normalize((0.1307,), (0.3081,))
+                   ])),
+    batch_size=BATCH_SIZE, shuffle=True
+)
 
