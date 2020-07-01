@@ -68,7 +68,20 @@ class Net(nn.Module):
         # Probability of Dropout
         self.dropout_p = droptout_p
 
+    # Dropout
     def forward(self, x):
         x = x.view(-1, 784)
         x = F.relu(self.fc1(x))
         # Add Dropout
+        x = F.dropout(
+            x, training=self.training,
+            p=self.dropout_p
+        )
+        x = F.relu(self.fc2(x))
+        # Add Dropout
+        x = F.dropout(
+            x, training=self.training,
+            p=self.dropout_p
+        )
+        x = self.fc3(x)
+        return x
