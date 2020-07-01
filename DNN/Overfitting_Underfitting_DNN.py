@@ -1,4 +1,6 @@
 import torch
+from torch import nn
+from torch.nn import functional as F
 from torchvision import transforms, datasets
 
 BATCH_SIZE = 64
@@ -44,3 +46,29 @@ train_loader = torch.utils.data.DataLoader(
     batch_size=BATCH_SIZE, shuffle=True
 )
 
+"""
+  Dropout
+  1. It solves Model OverFitting Problem.
+  2. Dropout does not use a part of Neural Network
+     while Learning Process.
+  3. For example, when Dropout is just only use 50%,
+     It just use 50% of Neural Network in every stage of Learning Process.
+  4. Use entire of Neurons when the Model are in Qualification Process.
+  5. Disperse to Other Neurons not to excluded Neurons, and then 
+     prevent Static Phenomenon each of Neurons. 
+"""
+
+
+class Net(nn.Module):
+    def __init__(self, droptout_p=0.2):
+        super(Net, self).__init__()
+        self.fc1 = nn.Linear(784, 256)
+        self.fc2 = nn.Linear(256, 128)
+        self.fc3 = nn.Linear(128, 10)
+        # Probability of Dropout
+        self.dropout_p = droptout_p
+
+    def forward(self, x):
+        x = x.view(-1, 784)
+        x = F.relu(self.fc1(x))
+        # Add Dropout
