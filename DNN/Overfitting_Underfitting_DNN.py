@@ -68,7 +68,9 @@ class Net(nn.Module):
         # Probability of Dropout
         self.dropout_p = droptout_p
 
-    # Dropout
+    # Dropout once again after
+    # Passing through layer1 and once again
+    # after passing through layer2.
     def forward(self, x):
         x = x.view(-1, 784)
         x = F.relu(self.fc1(x))
