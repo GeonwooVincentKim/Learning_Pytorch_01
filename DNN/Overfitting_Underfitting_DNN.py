@@ -137,10 +137,15 @@ def evaluate(model, test_loader):
             pred = output.max(1, keepdim=True)[1]
             correct += pred.eq(target.view_as(pred)).sum().item()
 
-        test_loss /= (test_loader.dataset)
+        test_loss /= len(test_loader.dataset)
         test_accuracy = 100. * correct / len(test_loader.dataset)
         return test_loss, test_accuracy
 
 
 for epoch in range(1, EPOCHS + 1):
-    train()
+    train(model, train_loader, optimizer)
+    test_loss, test_accuracy = evaluate(model, test_loader)
+
+    print("[{}] Test Loss : {:.4f}, Accuracy: {:.2f}%".format(
+        epoch, test_loss, test_accuracy
+    ))
