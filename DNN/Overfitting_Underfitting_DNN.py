@@ -1,9 +1,15 @@
 import torch
-from torch import nn
+from torch import nn, optim
 from torch.nn import functional as F
 from torchvision import transforms, datasets
 
+# from DNN.Neural_Network import Net
+
+USE_CUDA = torch.cuda.is_available()
+DEVICE = torch.device("cuda" if USE_CUDA else "cpu")
+
 BATCH_SIZE = 64
+EPOCHS = 30
 """
   OverFitting (Example are also included).
   1. Creating a Machine Learning Model can provide 
@@ -46,6 +52,15 @@ train_loader = torch.utils.data.DataLoader(
     batch_size=BATCH_SIZE, shuffle=True
 )
 
+test_loader = torch.utils.data.DataLoader(
+    datasets.MNIST('./.data',
+                   train=False,
+                   transform=transforms.Compose([
+                       transforms.ToTensor(),
+                       transforms.Normalize((0.1307,), (0.3081,))
+                   ])),
+    batch_size=BATCH_SIZE, shuffle=True
+)
 """
   Dropout
   1. It solves Model OverFitting Problem.
@@ -87,3 +102,45 @@ class Net(nn.Module):
         )
         x = self.fc3(x)
         return x
+
+
+# Add DropOut Probability when Instance Model lastly.
+model = Net(droptout_p=0.2).to(DEVICE)
+optimizer = optim.SGD(model.parameters(), lr=0.01)
+
+
+def train(model, train_loader, optimizer):
+    model.train()
+    for batch_idx, (data, target) in enumerate(train_loader):
+        data, target = data.to(DEVICE), target.to(DEVICE)
+        optimizer.zero_grad()
+        output = model(data)
+        loss = F.cross_entropy(output, target)
+        loss.backward()
+        optimizer.step()
+
+
+def evaluate(model, test_loader):
+    model.eval()
+    test_loss = 0
+    correct = 0
+    with torch.no_grad():
+        for data, target in test_loader:
+            data, target = data.to(DEVICE), target.to(DEVICE)
+            output = model(data)
+            test_loss +=  F.cross_entropy(
+                output, target,
+                reduction='sum'
+            ).item()
+
+            # Compute the number of Correct Answers.
+            pred = output.max(1, keepdim=True)[1]
+            correct += pred.eq(target.view_as(pred)).sum().item()
+
+        test_loss /= (test_loader.dataset)
+        test_accuracy = 100. * correct / len(test_loader.dataset)
+        return test_loss, test_accuracy
+
+
+for epoch in range(1, EPOCHS + 1):
+    train()
