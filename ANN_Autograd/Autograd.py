@@ -1,8 +1,10 @@
 import torch
+import matplotlib.pyplot as plb
 # Define Scalar Tensor named "w"
 # Meaning of requires_grad is Calculating Differential Variable.
 w = torch.tensor(1.0, requires_grad=True)
 a = w * 3
+
 
 # More Complicated Calculate.
 l = a**2
