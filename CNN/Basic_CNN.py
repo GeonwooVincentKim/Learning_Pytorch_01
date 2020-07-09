@@ -12,8 +12,11 @@ DEVICE = torch.device("cuda" if USE_CUDA else "cpu")
 EPOCHS = 40
 BATCH_SIZE = 64
 
-train_loader = torch_dt.DataLoader(
-    datasets.FashionMNIST(
+# Makes sure that you should set the Saving files directory correct.
+# If you don't set the Directory which is not existing, it causes lots of Error.
+# so I set it as 'MNIST' not 'FashionMNIST'.
+train_loader = torch.utils.data.DataLoader(
+    datasets.MNIST(
         './.data',
         train=True,
         download=True,
@@ -21,14 +24,15 @@ train_loader = torch_dt.DataLoader(
             transforms.ToTensor(),
             transforms.Normalize((0.1307,), (0.3081,))
         ])),
-    batch_size=BATCH_SIZE, shuffle=True),
-test_loader = torch_dt.DataLoader(
-    datasets.FashionMNIST(
+    batch_size=BATCH_SIZE, shuffle=True)  # Do not type ',' when the current code just finish.
+
+test_loader = torch.utils.data.DataLoader(
+    datasets.MNIST(
         './.data',
         train=False,
         transform=transforms.Compose([
             transforms.ToTensor(),
-            transforms.Normalize((0.1307, ), (0.3801,))
+            transforms.Normalize((0.1307,), (0.3081,))
         ])
     ),
     batch_size=BATCH_SIZE, shuffle=True
@@ -46,7 +50,7 @@ class CNN(nn.Module):
         self.conv2 = nn.Conv2d(10, 20, kernel_size=5)
 
         # Dropout the result value which shows as Convolution Result.
-        self.drop = nn.Dropout2d()
+        self.conv2_drop = nn.Dropout2d()
 
         # Now the image that passed Convolution Layer and Dropout
         # pass Normal Neural Network.
@@ -58,7 +62,7 @@ class CNN(nn.Module):
     # that the data through Input and Output.
     def forward(self, x):
         x = F.relu(F.max_pool2d(self.conv1(x), 2))
-        x = F.relu(F.max_pool2d(self.conv2(x), 2))
+        x = F.relu(F.max_pool2d(self.conv2_drop(self.conv2(x)), 2))
 
         # The two-dimensional feature map cannot be inserted directly into the input,
         # so use the view() function to distribute it in one dimension.
@@ -66,7 +70,7 @@ class CNN(nn.Module):
 
         # The last layer is a neural network with 10 output values with 0 to 9 Label.
         x = F.relu(self.fc1(x))
-        x = self.drop(x)
+        x = F.dropout(x, training=self.training)
         x = self.fc2(x)
         return F.log_softmax(x, dim=1)
 
@@ -85,7 +89,7 @@ def train(model, train_loader, optimizer, epoch):
         loss.backward()
         optimizer.step()
 
-        if batch_idx & 200 == 0:
+        if batch_idx % 200 == 0:
             print("Train Epoch : {} [{}/{} ({:.0f}%)]\tLoss:{:.6f}"
                   .format(epoch, batch_idx * len(data),
                           len(train_loader.dataset),
@@ -103,7 +107,7 @@ def evaluate(model, test_loader):
 
             # Sum-up Batch Error.
             test_loss += F.cross_entropy(
-                output, target, reduction='sum'
+                output, target, size_average=False
             ).item()
 
             # The Index which have highest value is Prediction Value.
@@ -119,5 +123,5 @@ for epoch in range(1, EPOCHS + 1):
     train(model, train_loader, optimizer, epoch)
     test_loss, test_accuracy = evaluate(model, test_loader)
 
-    print('[{}] Test Loss: {:.4f}, Accuracy: {:.2f}%'
-          .format(epoch, test_loss, test_accuracy))
+    print('[{}] Test Loss: {:.4f}, Accuracy: {:.2f}%'.format(
+        epoch, test_loss, test_accuracy))
