@@ -72,4 +72,10 @@ class CNN(nn.Module):
         self.fc1 = nn.Linear(320, 50)
         self.fc2 = nn.Linear(50, 10)
 
+    # We defined Training Modules of Model, now we going to make path
+    # that the data through Input and Output.
+    def forward(self, x):
+        x = F.relu(F.max_pool2d(self.conv1(x), 2))
+        x = F.relu(F.max_pool2d(self.conv2(x), 2))
+
 
