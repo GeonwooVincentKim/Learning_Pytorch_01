@@ -18,6 +18,10 @@ from torchvision import transforms, datasets
 EPOCHS = 300
 BATCH_SIZE = 128
 
+"""
+  Now we are going to use "datasets.CIFAR10" instead of "datatsets.FashionMNIST".
+  To prevent Overfitting, add a noise into Learning DataSet such as RandomCrop and RandomHorizontalFlip.
+"""
 train_loader = torch.utils.data.DataLoader(
     datasets.CIFAR10('./.DATA',
                      train=True,
@@ -45,6 +49,20 @@ test_loader = torch.utils.data.DataLoader(
 
 """
     How to store CNN deeply
+    
+    The overlapping of multiple Neural Networks does not infinitely 
+    improve the learning performance.
+    Because the information of Initial Input Images are disappear
+    through several levels of Neural Network.
+    
+    The key to ResNet is that it divides the network into smaller blocks, 
+    Residual blocks.
+    
+    By adding x, which was input to the output of the residual block, 
+    the model can be designed much deeper.
+    
+    Train model by learn Input and Output separately are
+    better than Train Input and Output together.
 """
 
 
