@@ -82,3 +82,15 @@ class BasicBlock(nn.Module):
                           kernel_size=1, stride=stride, bias=False),
                 nn.BatchNorm2d(planes)
             )
+
+    """
+        Input X comes in and goes through the Convolution, Batch normalization, 
+        and activation functions, and then again passes the input X through self.shortcut 
+        to make it the same size and add it to the value passed through the activation function.
+    """
+    def forward(self, x):
+        out = F.relu(self.bn1(self.conv1(x)))
+        out = self.bn2(self.conv2(out))
+        out += self.shortcut(x)
+        out = F.relu(out)
+        return out
