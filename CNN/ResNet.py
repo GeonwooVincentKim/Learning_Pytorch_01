@@ -98,6 +98,10 @@ class BasicBlock(nn.Module):
 
 """
     Defined ResNet.
+    The model receives the image, then convolution 
+    and Batch normalization, then passes through 
+    several layers of BasicBlock and outputs forecasts 
+    through mean pulling and neural networks.
 """
 
 
