@@ -167,3 +167,35 @@ def train(model, train_loader, optimizer, epoch):
         loss = F.cross_entropy(output, target)
         loss.backward()
         optimizer.step()
+
+
+
+def test(model, test_loader):
+    model.eval()
+    test_loss = 0
+    correct = 0
+    with torch.no_grad():
+        for data, target in test_loader:
+            data, target = data.to(DEVICE), target.to(DEVICE)
+            output = model(data)
+
+            # sum up batch loss
+            test_loss += F.cross_entropy(output, target,
+                                         size_average=False).item()
+
+            # get the index of the max log-probability
+            pred = output.max(1, keepdim=True)[1]
+            correct += pred.eq(target.view_as(pred)).sum().item()
+
+    test_loss /= len(test_loader.dataset)
+    test_accuracy = 100. * correct / len(test_loader.dataset)
+    return test_loss, test_accuracy
+
+
+for epoch in range(1, EPOCHS + 1):
+    scheduler.step()
+    train(model, train_loader, optimizer, epoch)
+    test_loss, test_accuracy = test(model, test_loader)
+
+    print('[{}] Test Loss: {:.4f}, Accuracy: {:.2f}%'.format(
+        epoch, test_loss, test_accuracy))
