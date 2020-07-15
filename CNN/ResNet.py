@@ -156,3 +156,14 @@ scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=50,
                                       gamma=0.1)
 
 print(model)
+
+
+def train(model, train_loader, optimizer, epoch):
+    model.train()
+    for batch_idx, (data, target) in enumerate(train_loader):
+        data, target = data.to(DEVICE), target.to(DEVICE)
+        optimizer.zero_grad()
+        output = model(data)
+        loss = F.cross_entropy(output, target)
+        loss.backward()
+        optimizer.step()
