@@ -15,6 +15,10 @@ import torch.utils.data as torch_dt
 from torchvision import transforms, datasets
 
 
+USE_CUDA = torch.cuda.is_available()
+DEVICE = torch.device("cuda" if USE_CUDA else "cpu")
+
+
 EPOCHS = 300
 BATCH_SIZE = 128
 
@@ -117,3 +121,38 @@ class ResNet(nn.Module):
         self.layer2 = self._make_layer(32, 2, stride=2)
         self.layer3 = self._make_layer(64, 2, stride=2)
         self.linear = nn.Linear(64, num_classes)
+
+    """
+        layer1: Two BasicBlock that export 16 channels from 16 channels.
+        layer2: One BasicBlock that receive 16 channels and print 32 channels,
+                And the other Single BasicBlock that export 32 channels to 32 channels.
+        layer3: One BasicBlock that receive 32 channels and print 64 channels,
+                And the other Single BasicBlock that print from 64 channels to 64 channels. 
+    """
+    def _make_layer(self, planes, num_blocks, stride):
+        strides = [stride] + [1]*(num_blocks-1)
+        layers = []
+        for stride in strides:
+            layers.append(BasicBlock(self.in_planes, planes, stride))
+            self.in_planes = planes
+
+        return nn.Sequential(*layers)
+
+    def forward(self, x):
+        out = F.relu(self.bn1(self.conv1(x)))
+        out = self.layer1(out)
+        out = self.layer2(out)
+        out = self.layer3(out)
+        out = F.avg_pool2d(out, 8)
+        out = out.view(out.size(0), -1)
+        out = self.linear(out)
+        return out
+
+
+model = ResNet().to(DEVICE)
+optimizer = optim.SGD(model.parameters(), lr=0.1,
+                      momentum=0.9, weight_decay=0.0005)
+scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=50,
+                                      gamma=0.1)
+
+print(model)
