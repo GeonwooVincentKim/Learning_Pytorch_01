@@ -1,0 +1,46 @@
+1. git init
+2. git status
+3. git lfs install
+4. git lfs track "File Name or File_Extension"
+5. git add .
+6. git status
+7. git commit -m "Commitment Contents."
+8. git push origin master
+
+If "git push origin master" doesn't work,
+then make sure you have to download this file.
+
+"bfg-1.12.15.jar"
+
+then
+
+0. Move bfg-1.12.15.jar to your File Directory which you commit
+   on your Github Repository.
+1. git clone --mirror https://github.com/UserName/Repository_Name.git
+2. java -jar bfg-1.12.15.jar --strip-blobs-bigger-than 100M Repository_Name.git
+3. git reflog expire --expire=now --all && git gc --prune=now --aggressive
+4. git push origin master
+
+If still "git push origin master" doesn't work.
+You have to download Sourcetree from Google, Chrome.
+
+1. Click on the "Repository" Button at the top.
+2. You can find Git LFS by scrolling your Mouse or check lists of
+   "Repository" Button.
+3. Click on the "Initialize Repository".
+
+If you cannot click on "Initialize Repository" Button, 
+Click the "Trace File" under the "Initialize Repository" Button.
+
+1. Click "Add"
+2. Trace "*.tar.gz" files by click "Confirm".
+3. Click "Confirm" when this process finished.
+4. Click "Push" to post your project on your Github Repository.
+
+If still shows the error that you cannot add a files,
+Delete "Repository_Name.git" File Directory which is under your Project Folder.
+For the example, if your Project Folder name is "01", 
+make sure you have to delete your own File Directory, "Repository_Name.git"
+under the "01".
+
+
