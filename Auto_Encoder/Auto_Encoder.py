@@ -77,3 +77,15 @@ class Autoencoder(nn.Module):
         decoded = self.decoder(encoded)
         return encoded, decoded
 
+
+"""
+    Use Error-Function which named Mean_Squared_Loss to calculate 
+    the values from Decoder and difference in original. 
+    
+    2. Named 'criterion' which means standard, and
+       Instantiation this Object.
+"""
+
+autoencoder = Autoencoder().to(DEVICE)
+optimizer = torch.optim.Adam(autoencoder.parameters(), lr=0.005)
+criterion = nn.MSELoss()
