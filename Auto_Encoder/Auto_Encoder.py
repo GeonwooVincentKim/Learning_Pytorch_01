@@ -142,3 +142,11 @@ if __name__ == "__main__":
             a[1][i].set_yticks(())
 
         plt.show()
+
+
+# Visualization Latent Variable as 3D Shapes.
+view_data = trainset.data[:200].view(-1, 28 * 28)
+view_data = view_data.type(torch.FloatTensor) / 255
+text_x = view_data.to(DEVICE)
+encoded_data, _ = autoencoder(test_x)
+encoded_data = encoded_data.to("cpu")
