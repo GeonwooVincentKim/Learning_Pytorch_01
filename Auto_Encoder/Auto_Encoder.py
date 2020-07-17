@@ -143,10 +143,47 @@ if __name__ == "__main__":
 
         plt.show()
 
+    # Visualization Latent Variable as 3D Shapes.
+    view_data = trainset.data[:200].view(-1, 28 * 28)
+    view_data = view_data.type(torch.FloatTensor) / 255
+    test_x = view_data.to(DEVICE)
+    encoded_data, _ = autoencoder(test_x)
+    encoded_data = encoded_data.to("cpu")
 
-# Visualization Latent Variable as 3D Shapes.
-view_data = trainset.data[:200].view(-1, 28 * 28)
-view_data = view_data.type(torch.FloatTensor) / 255
-text_x = view_data.to(DEVICE)
-encoded_data, _ = autoencoder(test_x)
-encoded_data = encoded_data.to("cpu")
+    CLASSES = {
+        0: 'T-shirt/top',
+        1: 'Trouser',
+        2: 'Pullover',
+        3: 'Dress',
+        4: 'Coat',
+        5: 'Sandal',
+        6: 'Shirt',
+        7: 'Sneaker',
+        8: 'Bag',
+        9: 'Ankle boot'
+    }
+
+    # Create a three-dimensional frame with the
+    # Axes3D() function, then extract each Dimension
+    # X,Y, and Z separately from the Latent Variable and
+    # convert it to the Numpy Matrix by calling up the
+    # numpy function.
+    fig = plt.figure(figsize=(10, 8))
+    ax = Axes3D(fig)
+
+    X = encoded_data.data[:, 0].numpy()
+    Y = encoded_data.data[:, 1].numpy()
+    Z = encoded_data.data[:, 2].numpy()
+
+    labels = trainset.targets[:200].numpy()
+
+    for x, y, z, s in zip(X, Y, Z, labels):
+        name = CLASSES[s]
+        color = cm.rainbow(int(255 * s / 9))
+        ax.text(x, y, z, name, backgroundcolor=color)
+
+    ax.set_xlim(X.min(), X.max())
+    ax.set_ylim(Y.min(), Y.max())
+    ax.set_zlim(Z.min(), Z.max())
+
+    plt.show()
