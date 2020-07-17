@@ -85,53 +85,60 @@ class Autoencoder(nn.Module):
     2. Named 'criterion' which means standard, and
        Instantiation this Object.
 """
+"""
+    Make sure you have to write down 
+    if __name__ == "__main__":
+    
+    if you don't write down this code,
+    the 
+"""
+if __name__ == "__main__":
+    autoencoder = Autoencoder().to(DEVICE)
+    optimizer = torch.optim.Adam(autoencoder.parameters(), lr=0.005)
+    criterion = nn.MSELoss()
 
-autoencoder = Autoencoder().to(DEVICE)
-optimizer = torch.optim.Adam(autoencoder.parameters(), lr=0.005)
-criterion = nn.MSELoss()
-
-# Visualization an Original Image (First Column)
-view_data = trainset.data[:5].view(-1, 28 * 28)
-view_data = view_data.type(torch.FloatTensor) / 255.
-
-
-def train(autoencoder, train_loader):
-    autoencoder.train()
-    for step, (x, label) in enumerate(train_loader):
-        x = x.view(-1, 28 * 28).to(DEVICE)
-        y = x.view(-1, 28 * 28).to(DEVICE)
-        label = label.to(DEVICE)
-
-        encoded, decoded = autoencoder(x)
-
-        loss = criterion(decoded, y)
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
+    # Visualization an Original Image (First Column)
+    view_data = trainset.data[:5].view(-1, 28 * 28)
+    view_data = view_data.type(torch.FloatTensor) / 255.
 
 
-for epoch in range(1, EPOCH + 1):
-    train(autoencoder, train_loader)
+    def train(autoencoder, train_loader):
+        autoencoder.train()
+        for step, (x, label) in enumerate(train_loader):
+            x = x.view(-1, 28 * 28).to(DEVICE)
+            y = x.view(-1, 28 * 28).to(DEVICE)
+            label = label.to(DEVICE)
 
-    # Visualization a Image that comes from Decoder.
-    test_x = view_data.to(DEVICE)
-    _, decoded_data = autoencoder(test_x)
+            encoded, decoded = autoencoder(x)
 
-    # Compare between Original Image and Result of Decoded File.
-    f, a = plt.subplots(2, 5, figsize=(5, 2))
-    print("[Epoch {}]".format(epoch))
+            loss = criterion(decoded, y)
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
 
-    # Set CMap Color as gray.
-    for i in range(5):
-        img = np.reshape(view_data.data.numpy()[i], (28, 28))
-        a[0][i].imshow(img, cmap='gray')
-        a[0][i].set_xticks(())
-        a[0][i].set_yticks(())
 
-    for i in range(5):
-        img = np.reshape(decoded_data.to("cpu").data.numpy()[i], (28, 28))
-        a[1][i].imshow(img, cmap='gray')
-        a[1][i].set_xticks(())
-        a[1][i].set_yticks(())
+    for epoch in range(1, EPOCH + 1):
+        train(autoencoder, train_loader)
 
-    plt.show()
+        # Visualization a Image that comes from Decoder.
+        test_x = view_data.to(DEVICE)
+        _, decoded_data = autoencoder(test_x)
+
+        # Compare between Original Image and Result of Decoded File.
+        f, a = plt.subplots(2, 5, figsize=(5, 2))
+        print("[Epoch {}]".format(epoch))
+
+        # Set CMap Color as gray.
+        for i in range(5):
+            img = np.reshape(view_data.data.numpy()[i], (28, 28))
+            a[0][i].imshow(img, cmap='gray')
+            a[0][i].set_xticks(())
+            a[0][i].set_yticks(())
+
+        for i in range(5):
+            img = np.reshape(decoded_data.to("cpu").data.numpy()[i], (28, 28))
+            a[1][i].imshow(img, cmap='gray')
+            a[1][i].set_xticks(())
+            a[1][i].set_yticks(())
+
+        plt.show()
