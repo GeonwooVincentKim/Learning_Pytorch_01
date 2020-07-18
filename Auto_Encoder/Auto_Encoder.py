@@ -101,10 +101,20 @@ if __name__ == "__main__":
     view_data = trainset.data[:5].view(-1, 28 * 28)
     view_data = view_data.type(torch.FloatTensor) / 255.
 
+    # Add Random Noise into this function.
+    # It gonna be needs for Inputs that go through a Model
+    # when its training.
+    def add_noise(img):
+        noise = torch.randn(img.size()) * 0.2
+        noisy_img = img + noise
+        return noisy_img
+
 
     def train(autoencoder, train_loader):
         autoencoder.train()
+        avg_loss = 0
         for step, (x, label) in enumerate(train_loader):
+            x = add_noise(x)
             x = x.view(-1, 28 * 28).to(DEVICE)
             y = x.view(-1, 28 * 28).to(DEVICE)
             label = label.to(DEVICE)
@@ -116,32 +126,37 @@ if __name__ == "__main__":
             loss.backward()
             optimizer.step()
 
+            avg_loss += loss.item()
+        return avg_loss / len(train_loader)
+
 
     for epoch in range(1, EPOCH + 1):
-        train(autoencoder, train_loader)
-
-        # Visualization a Image that comes from Decoder.
-        test_x = view_data.to(DEVICE)
-        _, decoded_data = autoencoder(test_x)
-
-        # Compare between Original Image and Result of Decoded File.
-        f, a = plt.subplots(2, 5, figsize=(5, 2))
-        print("[Epoch {}]".format(epoch))
-
-        # Set CMap Color as gray.
-        for i in range(5):
-            img = np.reshape(view_data.data.numpy()[i], (28, 28))
-            a[0][i].imshow(img, cmap='gray')
-            a[0][i].set_xticks(())
-            a[0][i].set_yticks(())
-
-        for i in range(5):
-            img = np.reshape(decoded_data.to("cpu").data.numpy()[i], (28, 28))
-            a[1][i].imshow(img, cmap='gray')
-            a[1][i].set_xticks(())
-            a[1][i].set_yticks(())
-
-        plt.show()
+        loss = train(autoencoder, train_loader)
+        print("[Epoch : {}] - loss : {}".format(epoch, loss))
+        # train(autoencoder, train_loader)
+        #
+        # # Visualization a Image that comes from Decoder.
+        # test_x = view_data.to(DEVICE)
+        # _, decoded_data = autoencoder(test_x)
+        #
+        # # Compare between Original Image and Result of Decoded File.
+        # f, a = plt.subplots(2, 5, figsize=(5, 2))
+        # print("[Epoch {}]".format(epoch))
+        #
+        # # Set CMap Color as gray.
+        # for i in range(5):
+        #     img = np.reshape(view_data.data.numpy()[i], (28, 28))
+        #     a[0][i].imshow(img, cmap='gray')
+        #     a[0][i].set_xticks(())
+        #     a[0][i].set_yticks(())
+        #
+        # for i in range(5):
+        #     img = np.reshape(decoded_data.to("cpu").data.numpy()[i], (28, 28))
+        #     a[1][i].imshow(img, cmap='gray')
+        #     a[1][i].set_xticks(())
+        #     a[1][i].set_yticks(())
+        #
+        # plt.show()
 
     # Visualization Latent Variable as 3D Shapes.
     view_data = trainset.data[:200].view(-1, 28 * 28)
@@ -187,33 +202,3 @@ if __name__ == "__main__":
     ax.set_zlim(Z.min(), Z.max())
 
     plt.show()
-
-
-# Add Random Noise into this function.
-# It gonna be needs for Inputs that go through a Model
-# when its training.
-def add_noise(img):
-    noise = torch.randn(img.size()) * 0.2
-    noisy_img = img + noise
-    return noisy_img
-
-
-def train(autoencoder, train_loader):
-    autoencoder.train()
-    avg_loss = 0
-    for step, (x, label) in enumerate(train_loader):
-        x = add_noise(x)    # Add Noise into Input.
-        x = x.view(-1, 28 * 28).to(DEVICE)
-        y = x.view(-1, 28 * 28).to(DEVICE)
-
-        label = label.to(DEVICE)
-        encoded, decoded = autoencoder(x)
-
-        loss = criterion(decoded, y)
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
-
-        avg_loss += loss.item()
-    return avg_loss / len(train_loader)
-
