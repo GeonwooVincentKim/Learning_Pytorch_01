@@ -187,3 +187,33 @@ if __name__ == "__main__":
     ax.set_zlim(Z.min(), Z.max())
 
     plt.show()
+
+
+# Add Random Noise into this function.
+# It gonna be needs for Inputs that go through a Model
+# when its training.
+def add_noise(img):
+    noise = torch.randn(img.size()) * 0.2
+    noisy_img = img + noise
+    return noisy_img
+
+
+def train(autoencoder, train_loader):
+    autoencoder.train()
+    avg_loss = 0
+    for step, (x, label) in enumerate(train_loader):
+        x = add_noise(x)    # Add Noise into Input.
+        x = x.view(-1, 28 * 28).to(DEVICE)
+        y = x.view(-1, 28 * 28).to(DEVICE)
+
+        label = label.to(DEVICE)
+        encoded, decoded = autoencoder(x)
+
+        loss = criterion(decoded, y)
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        avg_loss += loss.item()
+    return avg_loss / len(train_loader)
+
