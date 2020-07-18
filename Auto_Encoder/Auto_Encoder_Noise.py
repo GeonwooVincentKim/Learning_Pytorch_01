@@ -81,14 +81,14 @@ class Autoencoder(nn.Module):
 """
     Use Error-Function which named Mean_Squared_Loss to calculate 
     the values from Decoder and difference in original. 
-    
+
     2. Named 'criterion' which means standard, and
        Instantiation this Object.
 """
 """
     Make sure you have to write down 
     if __name__ == "__main__":
-    
+
     if you don't write down this code,
     the 
 """
@@ -96,10 +96,6 @@ if __name__ == "__main__":
     autoencoder = Autoencoder().to(DEVICE)
     optimizer = torch.optim.Adam(autoencoder.parameters(), lr=0.005)
     criterion = nn.MSELoss()
-
-    # Visualization an Original Image (First Column)
-    view_data = trainset.data[:5].view(-1, 28 * 28)
-    view_data = view_data.type(torch.FloatTensor) / 255.
 
     # Add Random Noise into this function.
     # It gonna be needs for Inputs that go through a Model
@@ -117,8 +113,8 @@ if __name__ == "__main__":
             x = add_noise(x)
             x = x.view(-1, 28 * 28).to(DEVICE)
             y = x.view(-1, 28 * 28).to(DEVICE)
-            label = label.to(DEVICE)
 
+            label = label.to(DEVICE)
             encoded, decoded = autoencoder(x)
 
             loss = criterion(decoded, y)
@@ -131,74 +127,5 @@ if __name__ == "__main__":
 
 
     for epoch in range(1, EPOCH + 1):
-        # loss = train(autoencoder, train_loader)
-        # print("[Epoch : {}] - loss : {}".format(epoch, loss))
-        train(autoencoder, train_loader)
-
-        # Visualization a Image that comes from Decoder.
-        test_x = view_data.to(DEVICE)
-        _, decoded_data = autoencoder(test_x)
-
-        # Compare between Original Image and Result of Decoded File.
-        f, a = plt.subplots(2, 5, figsize=(5, 2))
-        print("[Epoch {}]".format(epoch))
-
-        # Set CMap Color as gray.
-        for i in range(5):
-            img = np.reshape(view_data.data.numpy()[i], (28, 28))
-            a[0][i].imshow(img, cmap='gray')
-            a[0][i].set_xticks(())
-            a[0][i].set_yticks(())
-
-        for i in range(5):
-            img = np.reshape(decoded_data.to("cpu").data.numpy()[i], (28, 28))
-            a[1][i].imshow(img, cmap='gray')
-            a[1][i].set_xticks(())
-            a[1][i].set_yticks(())
-
-        plt.show()
-
-    # Visualization Latent Variable as 3D Shapes.
-    view_data = trainset.data[:200].view(-1, 28 * 28)
-    view_data = view_data.type(torch.FloatTensor) / 255
-    test_x = view_data.to(DEVICE)
-    encoded_data, _ = autoencoder(test_x)
-    encoded_data = encoded_data.to("cpu")
-
-    CLASSES = {
-        0: 'T-shirt/top',
-        1: 'Trouser',
-        2: 'Pullover',
-        3: 'Dress',
-        4: 'Coat',
-        5: 'Sandal',
-        6: 'Shirt',
-        7: 'Sneaker',
-        8: 'Bag',
-        9: 'Ankle boot'
-    }
-
-    # Create a three-dimensional frame with the
-    # Axes3D() function, then extract each Dimension
-    # X,Y, and Z separately from the Latent Variable and
-    # convert it to the Numpy Matrix by calling up the
-    # numpy function.
-    fig = plt.figure(figsize=(10, 8))
-    ax = Axes3D(fig)
-
-    X = encoded_data.data[:, 0].numpy()
-    Y = encoded_data.data[:, 1].numpy()
-    Z = encoded_data.data[:, 2].numpy()
-
-    labels = trainset.targets[:200].numpy()
-
-    for x, y, z, s in zip(X, Y, Z, labels):
-        name = CLASSES[s]
-        color = cm.rainbow(int(255 * s / 9))
-        ax.text(x, y, z, name, backgroundcolor=color)
-
-    ax.set_xlim(X.min(), X.max())
-    ax.set_ylim(Y.min(), Y.max())
-    ax.set_zlim(Z.min(), Z.max())
-
-    plt.show()
+        loss = train(autoencoder, train_loader)
+        print("[Epoch : {}] - loss : {}".format(epoch, loss))
