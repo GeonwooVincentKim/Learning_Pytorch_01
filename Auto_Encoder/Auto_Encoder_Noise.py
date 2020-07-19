@@ -129,3 +129,44 @@ if __name__ == "__main__":
     for epoch in range(1, EPOCH + 1):
         loss = train(autoencoder, train_loader)
         print("[Epoch : {}] - loss : {}".format(epoch, loss))
+
+    """
+        Starting for visualization removal Noise.
+    """
+    # Import a set of test testers to validate data
+    # that the model has never seen before in learning.
+    testset = datasets.FashionMNIST(
+        root='./.data/',
+        train=False,
+        download=True,
+        transform=transforms.ToTensor()
+    )
+
+    sample_data = testset.data[0].view(-1, 28*28)
+    sample_data = sample_data.type(torch.FloatTensor)/255.
+
+    # Add a Noise by using 'add_noise()' function.
+    original_x = sample_data[0]
+    noisy_x = add_noise(original_x).to(DEVICE)
+    _, recovered_x = autoencoder(noisy_x)
+
+    f, a = plt.subplots(1, 3, figsize=(15, 15))
+
+    # Convert to Numpy Matrix(Array) to Visualize Images.
+    original_img = np.reshape(original_x.to("cpu").data.numpy(), (28, 28))
+    noisy_img = np.reshape(noisy_x.to("cpu").data.numpy(), (28, 28))
+    recovered_img = np.reshape(recovered_x.to("cpu").data.numpy(), (28, 28))
+
+    # Original Images
+    a[0].set_title("Original")
+    a[0].imshow(original_img, cmap='gray')
+
+    # Soiled Images
+    a[1].set_title("Noisy")
+    a[1].imshow(noisy_img, cmap='gray')
+
+    # Recovered Images((
+    a[2].set_title("Recovered")
+    a[2].imshow(recovered_img, cmap='gray')
+
+    plt.show()
