@@ -25,3 +25,16 @@ trainset, testset = datasets.IMDB.splits(TEXT, LABEL)
 # by using Created DataSet.
 TEXT.build_vocab(trainset, min_freg=5)
 LABEL.build_vocab(trainset)
+
+trainset, valset = trainset.splie(split_ratio=0.8)
+train_iter, val_iter, test_iter = data.BucketIterator.splits(
+    (trainset, valset, testset),
+    batch_size=BATCH_SIZE, shuffle=True,
+    repeat=False
+)
+
+vocab_size=len(TEXT.vocab)
+n_classes = 2
+
+print("[Learning-Set]: %d [Vertification-Set]: %d [Test-Set]: %d [Word-Count]: %d [Class]: %d"
+      % (len(trainset), len(valset), len(testset), vocab_size, n_classes))
