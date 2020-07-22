@@ -23,10 +23,10 @@ trainset, testset = datasets.IMDB.splits(TEXT, LABEL)
 
 # Make word vocabulary that needs for Word Embedding
 # by using Created DataSet.
-TEXT.build_vocab(trainset, min_freg=5)
+TEXT.build_vocab(trainset, min_freq=5)
 LABEL.build_vocab(trainset)
 
-trainset, valset = trainset.splie(split_ratio=0.8)
+trainset, valset = trainset.split(split_ratio=0.8)
 train_iter, val_iter, test_iter = data.BucketIterator.splits(
     (trainset, valset, testset),
     batch_size=BATCH_SIZE, shuffle=True,
@@ -64,3 +64,11 @@ class BasicGRU(nn.Module):
         # DL Developer upgraded RNN, and set the name as 'GRU'.
 
         self.out = nn.Linear(self.hidden_dim, n_classes)
+
+    def forward(self, x):
+        x = self.embed(x)
+        h_0 = self._init_state(batch_size=x.size(0))
+
+    def _init_state(self, batch_size=1):
+        weight = next(self.parameters()).data
+        return weight.new(self.n_layers, batch_size, self.hidden_dim).zero_()
