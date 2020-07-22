@@ -33,8 +33,34 @@ train_iter, val_iter, test_iter = data.BucketIterator.splits(
     repeat=False
 )
 
-vocab_size=len(TEXT.vocab)
+vocab_size = len(TEXT.vocab)
 n_classes = 2
 
 print("[Learning-Set]: %d [Vertification-Set]: %d [Test-Set]: %d [Word-Count]: %d [Class]: %d"
       % (len(trainset), len(valset), len(testset), vocab_size, n_classes))
+
+
+# Set n_layers as below the 2.
+class BasicGRU(nn.Module):
+    def __init__(self, n_layers, hidden_dim, n_vocab, embed_dim, n_classes, dropout_p=0.2):
+        super(BasicGRU, self).__init__()
+        print("Building Basic GRU model...")
+        self.n_layers = n_layers
+        self.embed = nn.Embedding(n_vocab, embed_dim)
+
+        # set hidden vector dimension and Dropout.
+        self.hidden_dim = hidden_dim
+        self.dropout = nn.Dropout(dropout_p)
+
+        # Define a RNN Model.
+        # nn.RNN sometimes forget the Front-Side Information,
+        # because the Gradient became to small or big.
+        self.gru = nn.GRU(embed_dim, self.hidden_dim,
+                          num_layers=self.n_layers,
+                          batch_first=True)
+        # When gradient of RNN extremely bigger than usual,
+        # it says 'gradient explosion',
+        # otherwise, it says 'vanishing gradient'.
+        # DL Developer upgraded RNN, and set the name as 'GRU'.
+
+        self.out = nn.Linear(self.hidden_dim, n_classes)
