@@ -69,6 +69,8 @@ class BasicGRU(nn.Module):
         x = self.embed(x)
         h_0 = self._init_state(batch_size=x.size(0))
         x, _ = self.gru(x, h_0)
+
+        # Test Commit..
         h_t = x[:, -1, :]
         self.dropout(h_t)
         logit = self.out(h_t)
