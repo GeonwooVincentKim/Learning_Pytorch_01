@@ -84,3 +84,62 @@ class BasicGRU(nn.Module):
     def _init_state(self, batch_size=1):
         weight = next(self.parameters()).data
         return weight.new(self.n_layers, batch_size, self.hidden_dim).zero_()
+
+
+if __name__ == "__main__":
+    def train(model, optimizer, train_iter):
+        model.train()
+        for b, batch in enumerate(train_iter):
+            x, y = batch.text.to(DEVICE), batch.label.to(DEVICE)
+            y.data.sub_(1)  # Convert Label Value as 0 to 1.
+
+            optimizer.zero_grad()
+            logit = model(x)
+            loss = F.cross_entropy(logit, y)
+            loss.backward()
+            optimizer.step()
+
+
+    def evaluate(model, val_iter):
+        """
+        evaluate model
+        :param model: model.
+        :param val_iter: iterate number of model training.
+        :return: avg_loss, avg_accuracy
+        """
+        model.eval()
+        corrects, total_loss = 0, 0
+        for batch in val_iter:
+            x, y = batch.text.to(DEVICE), batch.label.to(DEVICE)
+            y.data.sub_(1)   # Convert Label value as 0 to 1.
+
+            logit = model(x)
+            loss = F.cross_entropy(logit, y, reduction='sum')
+            total_loss += loss.item()
+
+            corrects += (logit.max(1)[1].view(y.size()).data == y.data).sum()
+
+        size = len(val_iter.dataset)
+        avg_loss = total_loss / size
+        avg_accuracy = 100.0 * corrects / size
+        return avg_loss, avg_accuracy
+
+
+    # Set hidden_vector as 256, and an Embed Token dimension as 128.
+    model = BasicGRU(1, 256, vocab_size, 128, n_classes, 0.5).to(DEVICE)
+    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+
+    best_val_loss = None
+    for e in range(1, EPOCHS + 1):
+        train(model, optimizer, train_iter)
+        val_loss, val_accuracy = evaluate(model, val_iter)
+
+        print("[Epoch: %d] Test Error: %5.2f | Test Accuracy: %5.2f"
+              % (e, val_loss, val_accuracy))
+
+        # Save the Optimum Model which have smallest test-error.
+        if not best_val_loss or val_loss < best_val_loss:
+            if not os.path.isdir("snapshot"):
+                os.makedirs("snapshot")
+            torch.save(model.state_dict(), "./snapshot/txtclassification.pt")
+            best_val_loss = val_loss
