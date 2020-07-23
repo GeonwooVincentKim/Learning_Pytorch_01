@@ -68,6 +68,11 @@ class BasicGRU(nn.Module):
     def forward(self, x):
         x = self.embed(x)
         h_0 = self._init_state(batch_size=x.size(0))
+        x, _ = self.gru(x, h_0)
+        h_t = x[:, -1, :]
+        self.dropout(h_t)
+        logit = self.out(h_t)
+        return logit
 
     def _init_state(self, batch_size=1):
         weight = next(self.parameters()).data
