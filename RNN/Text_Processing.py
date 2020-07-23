@@ -70,9 +70,14 @@ class BasicGRU(nn.Module):
         h_0 = self._init_state(batch_size=x.size(0))
         x, _ = self.gru(x, h_0)
 
-        # Test Commit..
+        # 'h_t' is the hidden_vector.
         h_t = x[:, -1, :]
+
+        # Extract 'dropout' from variable 'h_t'.
         self.dropout(h_t)
+
+        # View 'h_t' results that compressed entire of
+        # Movie reviews by input to 'self.out' Neural Network.
         logit = self.out(h_t)
         return logit
 
