@@ -143,3 +143,7 @@ if __name__ == "__main__":
                 os.makedirs("snapshot")
             torch.save(model.state_dict(), "./snapshot/txtclassification.pt")
             best_val_loss = val_loss
+
+    model.load_state_dict(torch.load('./snapshot/txtclassification.pt'))
+    test_loss, test_acc = evaluate(model, test_iter)
+    print("Test Error: %5.2f | Test Accuracy: %5.2f" % (test_loss, test_acc))
