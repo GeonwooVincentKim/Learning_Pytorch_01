@@ -10,6 +10,8 @@ import matplotlib.pyplot as plt
 vocab_size = 256   # Length of Entire ASCII Code.
 x_ = list(map(ord, "hello"))   # Convert to ASCII Code.
 y_ = list(map(ord, "hola"))    # Convert to ASCII Code.
+print("hello -> ", x_)
+print("hello -> ", y_)
 x = torch.LongTensor(x_)
 y = torch.LongTensor(y_)
 
@@ -51,7 +53,7 @@ class Seq2Seq(nn.Module):
 
     def _init_state(self, batch_size=1):
         weight = next(self.parameters()).data
-        return weight.new(self.n_layers, batch_size, self.hidden_dim).zero_()
+        return weight.new(self.n_layers, batch_size, self.hidden_size).zero_()
 
 
 seq2seq = Seq2Seq(vocab_size, 16)
