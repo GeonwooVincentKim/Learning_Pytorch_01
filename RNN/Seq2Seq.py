@@ -53,3 +53,22 @@ class Seq2Seq(nn.Module):
         weight = next(self.parameters()).data
         return weight.new(self.n_layers, batch_size, self.hidden_dim).zero_()
 
+
+seq2seq = Seq2Seq(vocab_size, 16)
+criterion = nn.CrossEntropyLoss()
+optimizer = torch.optim.Adam(seq2seq.parameters(), lr=1e-3)
+
+log = []
+for i in range(1000):
+    prediction = seq2seq(x, y)
+    loss = criterion(prediction, y)
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+    loss_val = loss.data
+    log.append(loss_val)
+
+    if i % 100 == 0:
+        print("\n Iterates: %d, Error: %s" % (i, loss_val.item()))
+        _, top1 = prediction.data.topk(1, 1)
+        print([chr(c) for c in top1.squeeze().numpy().tolist()])
