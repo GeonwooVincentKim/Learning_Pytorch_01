@@ -74,3 +74,7 @@ for i in range(1000):
         print("\n Iterates: %d, Error: %s" % (i, loss_val.item()))
         _, top1 = prediction.data.topk(1, 1)
         print([chr(c) for c in top1.squeeze().numpy().tolist()])
+
+plt.plot(log)
+plt.ylabel("cross entropy loss")
+plt.show()
