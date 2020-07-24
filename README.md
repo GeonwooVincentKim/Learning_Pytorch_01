@@ -79,14 +79,14 @@ under the "01".
 
 
 # Further information
-1. https://dobby-the-house-elf.tistory.com/75
-2. https://hwiyong.tistory.com/318
-3. https://velog.io/@29been/Github-100MB%EB%B3%B4%EB%8B%A4-%ED%81%B0-%ED%8C%8C%EC%9D%BC-%EC%98%AC%EB%A6%AC%EA%B8%B0
-4. https://rtyley.github.io/bfg-repo-cleaner/
-5. https://stackoverflow.com/questions/37049901/how-to-use-jar-tool-bfg-repo-cleaner-and-reduce-git-repository
-6. https://anaconda.org/conda-forge/bfg
-7. https://github.com/rtyley/bfg-repo-cleaner/
-8. https://git-lfs.github.com/
+- 1. https://dobby-the-house-elf.tistory.com/75
+- 2. https://hwiyong.tistory.com/318
+- 3. https://velog.io/@29been/Github-100MB%EB%B3%B4%EB%8B%A4-%ED%81%B0-%ED%8C%8C%EC%9D%BC-%EC%98%AC%EB%A6%AC%EA%B8%B0
+- 4. https://rtyley.github.io/bfg-repo-cleaner/
+- 5. https://stackoverflow.com/questions/37049901/how-to-use-jar-tool-bfg-repo-cleaner-and-reduce-git-repository
+- 6. https://anaconda.org/conda-forge/bfg
+- 7. https://github.com/rtyley/bfg-repo-cleaner/
+- 8. https://git-lfs.github.com/
 
 # When you trying to back before commit or push..
 - Sourcetree
