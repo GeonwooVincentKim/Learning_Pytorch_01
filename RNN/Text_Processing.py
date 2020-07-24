@@ -35,6 +35,7 @@ train_iter, val_iter, test_iter = data.BucketIterator.splits(
 
 vocab_size = len(TEXT.vocab)
 n_classes = 2
+print("Size: {0}, n_classes: {1}".format(vocab_size, n_classes))
 
 print("[Learning-Set]: %d [Vertification-Set]: %d [Test-Set]: %d [Word-Count]: %d [Class]: %d"
       % (len(trainset), len(valset), len(testset), vocab_size, n_classes))
