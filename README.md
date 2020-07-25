@@ -1,8 +1,8 @@
-## Learning_Pytorch_01
+# Learning_Pytorch_01
 Using Anaconda3 Version 1.9.12 and Pycharm 2020.01 to learn how to use Pytorch.
 
 
-# What does Squeeze for? And How does it work?
+## What does Squeeze for? And How does it work?
 - 1. Squeeze is one of command code that decresase or increase Matrix Dimension.
      And Squeeze has an attribute to increase or decrease Matrix Dimension.
      
@@ -21,7 +21,7 @@ Using Anaconda3 Version 1.9.12 and Pycharm 2020.01 to learn how to use Pytorch.
 
  - 2. Dimension is one of the Mathematical Conception that is really needs in Pytorch Code. 
 
-# Gradient Descent Methods
+## Gradient Descent Methods
 - 1. Gradient Descent is a method of grabbing a specific point X, calculating the slope of the cost function, and changing 
      the value of X according to the slope.
      
@@ -33,12 +33,12 @@ Using Anaconda3 Version 1.9.12 and Pycharm 2020.01 to learn how to use Pytorch.
 - 2. Set Gradient Value as 0 by calling zero_grad() function to calculate new Gradient values every epochs.
      - We can get better results by setting Gradient Value as 0.
      
-## Further Information
+# Further Information
 
-# Further Information for DenseNet
+## Further Information for DenseNet
 https://pytorch.org/hub/pytorch_vision_densenet/
 
-# How to upload files overs 100MB by using git-lfs?
+## How to upload files overs 100MB by using git-lfs?
 - 1. git init
 - 2. git status
 - 3. git lfs install
@@ -53,7 +53,7 @@ then make sure you have to download this file.
 
 "bfg-1.12.15.jar"
 
-# Uploade files that overs 100MB by Using 'bfg-1.12.15.jar' or 'bfg-1.12.16.jar
+## Uploade files that overs 100MB by Using 'bfg-1.12.15.jar' or 'bfg-1.12.16.jar
 - 0. Move bfg-1.12.15.jar to your File Directory which you commit
    on your Github Repository.
 - 1. git clone --mirror https://github.com/UserName/Repository_Name.git
@@ -64,7 +64,7 @@ then make sure you have to download this file.
 If still "git push origin master" doesn't work.
 You have to download Sourcetree from Google, Chrome.
 
-# Upload files by using 'Sourcetree'.
+## Upload files by using 'Sourcetree'.
 - 1. Click on the "Repository" Button at the top.
 - 2. You can find Git LFS by scrolling your Mouse or check lists of
    "Repository" Button.
@@ -85,7 +85,7 @@ make sure you have to delete your own File Directory, "Repository_Name.git"
 under the "01".
 
 
-# Further information
+## Further information
 - 1. https://dobby-the-house-elf.tistory.com/75
 - 2. https://hwiyong.tistory.com/318
 - 3. https://velog.io/@29been/Github-100MB%EB%B3%B4%EB%8B%A4-%ED%81%B0-%ED%8C%8C%EC%9D%BC-%EC%98%AC%EB%A6%AC%EA%B8%B0
@@ -95,7 +95,7 @@ under the "01".
 - 7. https://github.com/rtyley/bfg-repo-cleaner/
 - 8. https://git-lfs.github.com/
 
-# When you trying to back before commit or push..
+## When you trying to back before commit or push..
 - Sourcetree
 https://stackoverflow.com/questions/23865335/sourcetree-undo-unpushed-commits/36619186
 
