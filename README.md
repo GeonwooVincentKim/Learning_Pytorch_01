@@ -30,6 +30,11 @@ Using Anaconda3 Version 1.9.12 and Pycharm 2020.01 to learn how to use Pytorch.
        
      - The other meaning of Gradient Descent Methods is Linear Regression.
 
+- 2. Set Gradient Value as 0 by calling zero_grad() function to calculate new Gradient values every epochs.
+     - We can get better results by setting Gradient Value as 0.
+
+# Further Information for DenseNet
+https://pytorch.org/hub/pytorch_vision_densenet/
 
 # How to upload files overs 100MB by using git-lfs?
 - 1. git init
