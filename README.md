@@ -1,4 +1,4 @@
-# Learning_Pytorch_01
+## Learning_Pytorch_01
 Using Anaconda3 Version 1.9.12 and Pycharm 2020.01 to learn how to use Pytorch.
 
 
@@ -32,6 +32,8 @@ Using Anaconda3 Version 1.9.12 and Pycharm 2020.01 to learn how to use Pytorch.
 
 - 2. Set Gradient Value as 0 by calling zero_grad() function to calculate new Gradient values every epochs.
      - We can get better results by setting Gradient Value as 0.
+     
+## Further Information
 
 # Further Information for DenseNet
 https://pytorch.org/hub/pytorch_vision_densenet/
