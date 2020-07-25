@@ -18,7 +18,6 @@ Using Anaconda3 Version 1.9.12 and Pycharm 2020.01 to learn how to use Pytorch.
        and Users trying to release another Matrix Dimension,
        it shows Current Tensor and release it. It doesn't need to use Another Parameter such as 0 or 1 or 2.
        
-
  - 2. Dimension is one of the Mathematical Conception that is really needs in Pytorch Code. 
 
 ## Gradient Descent Methods
@@ -32,6 +31,7 @@ Using Anaconda3 Version 1.9.12 and Pycharm 2020.01 to learn how to use Pytorch.
 
 - 2. Set Gradient Value as 0 by calling zero_grad() function to calculate new Gradient values every epochs.
      - We can get better results by setting Gradient Value as 0.
+
      
 # Further Information
 
