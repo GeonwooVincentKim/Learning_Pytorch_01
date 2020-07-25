@@ -7,3 +7,5 @@ aclImdb_v1.tar.gz filter=lfs diff=lfs merge=lfs -text
 *.txt filter=lfs diff=lfs merge=lfs -text
 *.feat filter=lfs diff=lfs merge=lfs -text
 *.vocab filter=lfs diff=lfs merge=lfs -text
+*.jpg filter=lfs diff=lfs merge=lfs -text
+*.json filter=lfs diff=lfs merge=lfs -text
