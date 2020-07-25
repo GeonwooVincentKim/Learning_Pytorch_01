@@ -42,3 +42,8 @@ img_transforms = transforms.Compose([
     transforms.Resize((224, 224), Image.BICUBIC),
     transforms.ToTensor(),
 ])
+
+img_tensor = img_transforms(img)
+img_tensor = img_tensor.unsqueeze(0)
+
+print("Shape of Image Tensor: ", img_tensor.size())
