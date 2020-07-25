@@ -17,3 +17,5 @@ model.eval()
 
 CLASSES = json.load(open('./imagenet_samples/imagenet_classes.json'))
 idx2class = [CLASSES[str(i)] for i in range(1000)]
+
+img = Image.open("imagenet_samples/corgie.jpg")
