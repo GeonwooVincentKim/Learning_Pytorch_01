@@ -43,7 +43,24 @@ img_transforms = transforms.Compose([
     transforms.ToTensor(),
 ])
 
+"""
+    1. squeeze
+    -> Returns a tensor with all the dimensions of 
+    Input of size '1' removed.
+    
+    2. unsqueeze
+    -> Returns a new tensor with a dimension of size 
+    one inserted at the specified position.
+"""
 img_tensor = img_transforms(img)
 img_tensor = img_tensor.unsqueeze(0)
 
 print("Shape of Image Tensor: ", img_tensor.size())
+
+# Convert Numpy Array to visualize Images.
+# [1, 3, 244, 244] -> [3, 244, 244]
+original_img_view = img_tensor.squeeze(0).detach()
+original_img_view = original_img_view.transpose(0, 2).\
+    transpose(0, 1).numpy()
+
+plt.imshow(original_img_view)
