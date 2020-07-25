@@ -63,4 +63,29 @@ original_img_view = img_tensor.squeeze(0).detach()
 original_img_view = original_img_view.transpose(0, 2).\
     transpose(0, 1).numpy()
 
+# Visualize Tensor.
 plt.imshow(original_img_view)
+
+# Adversarial Attack
+output = model(img_tensor)
+prediction = output.max(1, keepdim=False)[1]
+
+prediction_idx = prediction.item()
+prediction_name = idx2class[prediction_idx]
+
+print("Predicted Label Number", prediction_idx)
+print("Label Name", prediction_name)
+
+
+def fgsm_attack(image, epsilon, gradient):
+    # Find the sign value of the element of the Gradient Value.
+    sign_gradient = gradient.sign()
+
+    # Adjust each Pixel Value of the Image by Epsilon
+    # in the Sign_gradient direction.
+    perturbed_image = image + epsilon * sign_gradient
+
+    # Adjust the values outside the range of [0, 1].
+    perturbed_image = torch.clamp(perturbed_image, 0, 1)
+    return perturbed_image
+
