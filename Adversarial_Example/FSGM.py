@@ -77,6 +77,18 @@ print("Predicted Label Number", prediction_idx)
 print("Label Name", prediction_name)
 
 
+"""
+    fgsm_attack()
+    - 1. This is the function that Gets the 
+    Original Images (or Image) and generate 
+    Adversarial_Example.
+    
+    - 2. FGSM also extract Information of 
+    Model Input Images Gradient, and distort it
+    and add into Original Images(or Image). 
+"""
+
+
 def fgsm_attack(image, epsilon, gradient):
     # Find the sign value of the element of the Gradient Value.
     sign_gradient = gradient.sign()
