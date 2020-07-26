@@ -39,8 +39,12 @@ Using Anaconda3 Version 1.9.12 and Pycharm 2020.01 to learn how to use Pytorch.
      
 # Further Information
 
-## Further Information for DenseNet
+## Further Information of DenseNet
 https://pytorch.org/hub/pytorch_vision_densenet/
+
+## Further Information of Pytorch Lightning.
+- 1. https://medium.com/pytorch/pytorch-multi-gpu-metrics-and-more-in-pytorch-lightning-0-8-1-b7cadd04893e
+- 2. https://neptune.ai/blog/pytorch-lightning-neptune-integration
 
 ## How to upload files overs 100MB by using git-lfs?
 - 1. git init
