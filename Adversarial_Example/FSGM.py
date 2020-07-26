@@ -7,7 +7,6 @@ from PIL import Image
 import json
 import matplotlib.pyplot as plt
 
-
 """
     Now we are going to make model that predicts
     Panda images as Gibbon.
@@ -142,5 +141,17 @@ perturbed_data_view = perturbed_data_view.transpose(0, 2).\
     transpose(0, 1).numpy()
 
 plt.imshow(perturbed_data_view)
+plt.show()
+
+f, a = plt.subplots(1, 2, figsize=(10, 10))
+
+# Original Image
+a[0].set_title(prediction_name)
+a[0].imshow(original_img_view)
+# plt.show()
+
+# Adversarial_Example
+a[1].set_title(perturbed_prediction_name)
+a[1].imshow(perturbed_data_view)
 plt.show()
 
