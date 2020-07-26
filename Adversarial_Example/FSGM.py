@@ -65,6 +65,7 @@ original_img_view = original_img_view.transpose(0, 2).\
 
 # Visualize Tensor.
 plt.imshow(original_img_view)
+plt.show()
 
 # Adversarial Attack
 output = model(img_tensor)
@@ -141,5 +142,5 @@ perturbed_data_view = perturbed_data_view.transpose(0, 2).\
     transpose(0, 1).numpy()
 
 plt.imshow(perturbed_data_view)
-
+plt.show()
 
