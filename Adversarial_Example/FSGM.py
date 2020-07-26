@@ -135,3 +135,11 @@ perturbed_prediction_name = idx2class[perturbed_prediction_idx]
 print("Predicted Label Number : ", perturbed_prediction_idx)
 print("Label Name : ", perturbed_prediction_name)
 
+# Convert Numpy Array(Matrix) to Visualize Model Data.
+perturbed_data_view = perturbed_data.squeeze(0).detach()
+perturbed_data_view = perturbed_data_view.transpose(0, 2).\
+    transpose(0, 1).numpy()
+
+plt.imshow(perturbed_data_view)
+
+
