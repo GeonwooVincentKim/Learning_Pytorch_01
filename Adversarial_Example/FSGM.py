@@ -115,4 +115,11 @@ perturbed_data = fgsm_attack(img_tensor, epsilon, gradient)
 # Through Created Adversarial_Example to the Model.
 output = model(perturbed_data)
 
+# Confirm Perturbed_prediction
+perturbed_prediction = output.max(1, keepdim=True)[1]
+perturbed_prediction_idx = perturbed_prediction.item()
+perturbed_prediction_name = idx2class[perturbed_prediction_idx]
+
+print("Predicted Label Number : ", perturbed_prediction_idx)
+print("Label Name : ", perturbed_prediction_name)
 
