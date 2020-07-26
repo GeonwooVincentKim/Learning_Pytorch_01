@@ -89,3 +89,19 @@ def fgsm_attack(image, epsilon, gradient):
     perturbed_image = torch.clamp(perturbed_image, 0, 1)
     return perturbed_image
 
+
+# Create Adversarial_Example
+# Set to get Image Gradient Value.
+img_tensor.requires_grad_(True)
+
+# Through Images to the Model.
+output = model(img_tensor)
+
+# Get Error values(No.263 is Welsh Corgi).
+loss = F.nll_loss(output, torch.tensor([263]))
+
+# Get Gradient Value.
+model.zero_grad()
+loss.backward()
+
+
