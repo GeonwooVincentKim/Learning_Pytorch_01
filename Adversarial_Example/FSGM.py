@@ -104,4 +104,15 @@ loss = F.nll_loss(output, torch.tensor([263]))
 model.zero_grad()
 loss.backward()
 
+# Extract Image Gradient.
+gradient = img_tensor.grad.data
+
+
+# Create Adversarial_Example by FGSM Attack.
+epsilon = 0.03
+perturbed_data = fgsm_attack(img_tensor, epsilon, gradient)
+
+# Through Created Adversarial_Example to the Model.
+output = model(perturbed_data)
+
 
