@@ -32,6 +32,10 @@ Using Anaconda3 Version 1.9.12 and Pycharm 2020.01 to learn how to use Pytorch.
 - 2. Set Gradient Value as 0 by calling zero_grad() function to calculate new Gradient values every epochs.
      - We can get better results by setting Gradient Value as 0.
 
+## Adversarial Example
+- 1. Adversarial Example is one of function that tricks and changes some complicated Machine Learning Model such as CNN Model, RNN Models.
+
+- 2. This Example makes various trained model malfunction by FGSM model hack system.
      
 # Further Information
 
