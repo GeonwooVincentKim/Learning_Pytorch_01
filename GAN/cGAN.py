@@ -31,4 +31,28 @@ train_loader = torch.utils.data.DataLoader(
     shuffle=True
 )
 
+# Generator
+G = nn.Sequential(
+    nn.Linear(64, 256),
+    nn.ReLU(),
+    nn.Linear(256, 256),
+    nn.ReLU(),
+    nn.Linear(256, 784),
+    nn.Tanh()
+)
+
+# Discriminator
+D = nn.Sequential(
+    nn.Linear(784, 256),
+    nn.LeakyReLU(0.2),
+    nn.Linear(256, 256),
+    nn.LeakyReLU(0.2),
+    nn.Linear(256, 1),
+    nn.Sigmoid()
+)
+
+# Send Weight Models to specified Model.
+D = D.to(DEVICE)
+G = G.to(DEVICE)
+
 
