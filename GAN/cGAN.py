@@ -162,3 +162,18 @@ for epoch in range(EPOCHS):
                   d_loss.item(), g_loss.item(),
                   real_score.mean().item(),
                   fake_score.mean().item()))
+
+
+# Visualize the Item which you want to create.
+item_number = 9   # Item Number
+z = torch.randn(1, 100).to(DEVICE)  # Batch-Size 1
+
+#
+g_label = torch.full((1, ), item_number, dtype=torch.long)\
+    .to(DEVICE)
+
+sample_images = G(z, g_label)
+sample_images_img = np.reshape(sample_images.data.cpu().numpy()
+                               [0], (28, 28))
+plt.imshow(sample_images_img, cmap='gray')
+plt.show()
