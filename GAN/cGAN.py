@@ -31,28 +31,25 @@ train_loader = torch.utils.data.DataLoader(
     shuffle=True
 )
 
+
 # Generator
-G = nn.Sequential(
-    nn.Linear(64, 256),
-    nn.ReLU(),
-    nn.Linear(256, 256),
-    nn.ReLU(),
-    nn.Linear(256, 784),
-    nn.Tanh()
-)
+class Generator(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.embed = nn.Embedding(10, 10)
 
-# Discriminator
-D = nn.Sequential(
-    nn.Linear(784, 256),
-    nn.LeakyReLU(0.2),
-    nn.Linear(256, 256),
-    nn.LeakyReLU(0.2),
-    nn.Linear(256, 1),
-    nn.Sigmoid()
-)
+        self.model = nn.Sequential(
+            nn.Linear(110, 256),
+            nn.LeakyReLU(0.2, inplace=True),
+            nn.Linear(256, 512),
+            nn.LeakyReLU(0.2, inplace=True),
+            nn.Linear(512, 1024),
+            nn.LeakyReLU(0.2, inplace=True),
+            nn.Linear(1024, 784),
+            nn.Tanh()
+        )
 
-# Send Weight Models to specified Model.
-D = D.to(DEVICE)
-G = G.to(DEVICE)
-
-
+    def forward(self, z, labels):
+        c = self.embed(labels)
+        x = torch.cat([z, c], 1)
+        return self.model(x)
