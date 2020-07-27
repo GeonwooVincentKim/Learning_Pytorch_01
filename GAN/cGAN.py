@@ -168,7 +168,8 @@ for epoch in range(EPOCHS):
 item_number = 9   # Item Number
 z = torch.randn(1, 100).to(DEVICE)  # Batch-Size 1
 
-#
+# 'g_label' tensor already have the Item-Number that
+# I just designate.
 g_label = torch.full((1, ), item_number, dtype=torch.long)\
     .to(DEVICE)
 
