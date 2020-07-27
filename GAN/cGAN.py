@@ -114,3 +114,26 @@ for epoch in range(EPOCHS):
         g_label = torch.randint(0, 10, (BATCH_SIZE,)).to(DEVICE)
         fake_images = G(z, g_label)
 
+        """
+            Discriminator Recognition for Real-Images.
+        """
+        # Calculate Error that the Discriminator
+        # recognize Real-Image for real.
+        outputs = D(fake_images, g_label)
+        d_loss_fake = criterion(outputs, fake_labels)
+        fake_score = outputs
+
+        """
+            Calculation Discriminator Errors.
+        """
+        # Calculate Discriminator Error by adding error
+        # which brings and get the answer from Real-Images and
+        # Fake Images.
+        d_loss = d_loss_real + d_loss_fake
+
+        # Process training procedure for Discriminator Errors
+        # by importing Back-Propagation Algorithm.
+        d_optimizer.zero_grad()
+        g_optimizer.zero_grad()
+        d_loss.backward()
+        d_optimizer.step()
