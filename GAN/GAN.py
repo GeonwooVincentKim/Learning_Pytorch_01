@@ -94,3 +94,37 @@ total_step = len(train_loader)
 for epoch in range(EPOCHS):
     for i, (images, _) in enumerate(train_loader):
         images = images.reshape(BATCH_SIZE, -1).to(DEVICE)
+
+        # Generate 'real' and 'fake' Label.
+        real_labels = torch.ones(BATCH_SIZE, 1).to(DEVICE)
+        fake_labels = torch.zeros(BATCH_SIZE, 1).to(DEVICE)
+
+        """
+            Discriminator Recognition for Real-Images.
+        """
+        # Calculate Error that the Discriminator
+        # recognize Real-Image for real.
+        outputs = D(images)
+        d_loss_real = criterion(outputs, real_labels)
+        real_score = outputs
+
+        # Generate 'fake' Image by Random-Tensor.
+        z = torch.randn(BATCH_SIZE, 64).to(DEVICE)
+        fake_images = G(z)
+
+        """
+            Discriminator Recognition for Fake-Images.
+        """
+        # Calculate Error that the Discriminator
+        # recognize Fake-Image for fake.
+        outputs = D(fake_images)
+        d_loss_fake = criterion(outputs, fake_labels)
+        fake_score = outputs
+
+        """
+            Calculation Discriminator Errors.
+        """
+        # Calculate Discriminator Error by adding error
+        # which brings and get the answer from Real-Images and
+        # Fake Images.
+        d_loss = d_loss_real + d_loss_fake
