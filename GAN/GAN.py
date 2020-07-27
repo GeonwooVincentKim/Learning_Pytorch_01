@@ -25,14 +25,12 @@ from torchvision import transforms, datasets
 from torchvision.utils import save_image
 import matplotlib.pyplot as plt
 
-
 # Hyper-Parameter
 EPOCHS = 500
 BATCH_SIZE = 100
 USE_CUDA = torch.cuda.is_available()
 DEVICE = torch.device("cuda" if USE_CUDA else "cpu")
 print("Use the following devices. : ", DEVICE)
-
 
 # Prepare DataSets that needs for 'Model Training".
 # Fashion MNIST DataSet
@@ -42,7 +40,7 @@ trainset = datasets.FashionMNIST(
     download=True,
     transform=transforms.Compose([
         transforms.ToTensor(),
-        transforms.Normalize((0.5, ), (0.5, ),)
+        transforms.Normalize((0.5,), (0.5,), )
     ])
 )
 
@@ -51,7 +49,6 @@ train_loader = torch.utils.data.DataLoader(
     batch_size=BATCH_SIZE,
     shuffle=True
 )
-
 
 # Implement Generator and Discriminator
 # Result values are Equal to images dimensions,
@@ -78,7 +75,6 @@ D = nn.Sequential(
     nn.Linear(256, 1),
     nn.Sigmoid()
 )
-
 
 # Send Weight Models to specified Model.
 D = D.to(DEVICE)
@@ -128,3 +124,25 @@ for epoch in range(EPOCHS):
         # which brings and get the answer from Real-Images and
         # Fake Images.
         d_loss = d_loss_real + d_loss_fake
+        outputs = D(fake_images)
+        g_loss = criterion(outputs, real_labels)
+
+        # Proceed Generator Model training
+        # by importing Back-Propagation Algorithm.
+        d_optimizer.zero_grad()
+        g_optimizer.zero_grad()
+        g_loss.backward()
+        g_optimizer.step()
+
+        """
+            Check for Learning Progress.
+        """
+        print("Epoch [{} / {}] d_loss: {:.4f} "
+              "g_loss: {:.4f} D(x): {:.2f}"
+              "D(G(z)): {:.2f}"
+              .format(epoch, EPOCHS, d_loss.item(),
+                      g_loss.item(),
+                      real_score.mean().item(),
+                      fake_score.mean().item())
+              )
+
