@@ -148,7 +148,6 @@ for epoch in range(EPOCHS):
                 fake_score.mean().item()
             )
         )
-        print("\n\n\n")
     """
         Check for Learning Progress. (Outer Epoch)
     """
@@ -163,3 +162,4 @@ for epoch in range(EPOCHS):
            fake_score.mean().item()
         )
     )
+    print("\n\n\n")
