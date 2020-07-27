@@ -135,8 +135,22 @@ for epoch in range(EPOCHS):
         g_optimizer.step()
 
         """
-            Check for Learning Progress.
+            Check for Learnign Progress. (Inner Epoch)
         """
+        print(
+            'Inner_Epoch [{}/{}], '
+            'Inner_d_loss: {:.4f}, Inner_g_loss: {:.4f}, '
+            'Inner_D(x): {:.2f}, Inner_D(G(z)): {:.2f}'
+            .format(
+                epoch, EPOCHS,
+                d_loss.item(), g_loss.item(),
+                real_score.mean().item(),
+                fake_score.mean().item()
+            )
+        )
+    """
+        Check for Learning Progress. (Outer Epoch)
+    """
     print(
         'Epoch [{}/{}], '
         'd_loss: {:.4f}, g_loss: {:.4f}, '
