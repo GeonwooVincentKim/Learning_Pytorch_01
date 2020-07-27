@@ -78,3 +78,25 @@ class Discriminator(nn.Module):
         c = self.embed(labels)
         x = torch.cat([x, c], 1)
         return self.model(x)
+
+
+# Create Model Instance and
+# Send Weight Models to specified Model.
+D = Discriminator().to(DEVICE)
+G = Generator().to(DEVICE)
+
+# Error Function of Binary-Crossing Entropy Function and
+# the Adam Module which optimize Generator and Discriminator.
+criterion = nn.BCELoss()
+d_optimizer = optim.Adam(D.parameters(), lr=0.0002)
+g_optimizer = optim.Adam(G.parameters(), lr=0.0002)
+
+total_step = len(train_loader)
+for epoch in range(EPOCHS):
+    for i, (images, labels) in enumerate(train_loader):
+        images = images.reshape(BATCH_SIZE, -1).to(DEVICE)
+
+        # Generate 'Real' Labels and 'Fake' Labels.
+        real_labels = torch.ones(BATCH_SIZE, 1).to(DEVICE)
+        fake_labels = torch.ones(BATCH_SIZE, 1).to(DEVICE)
+
