@@ -24,6 +24,7 @@ import torch.utils.data
 from torchvision import transforms, datasets
 from torchvision.utils import save_image
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Hyper-Parameter
 EPOCHS = 500
@@ -163,3 +164,13 @@ for epoch in range(EPOCHS):
         )
     )
     print("\n\n\n")
+
+# Visualization Image that Generator made.
+z = torch.randn(BATCH_SIZE, 64).to(DEVICE)
+fake_images = G(z)
+
+for i in range(10):
+    fake_images_img = np.reshape(fake_images.data.cpu().numpy()
+                                 [i], (28, 28))
+    plt.imshow(fake_images_img, cmap='gray')
+    plt.show()
