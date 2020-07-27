@@ -137,12 +137,14 @@ for epoch in range(EPOCHS):
         """
             Check for Learning Progress.
         """
-        print("Epoch [{} / {}] d_loss: {:.4f} "
-              "g_loss: {:.4f} D(x): {:.2f}"
-              "D(G(z)): {:.2f}"
-              .format(epoch, EPOCHS, d_loss.item(),
-                      g_loss.item(),
-                      real_score.mean().item(),
-                      fake_score.mean().item())
-              )
-
+    print(
+        'Epoch [{}/{}], '
+        'd_loss: {:.4f}, g_loss: {:.4f}, '
+        'D(x): {:.2f}, D(G(z)): {:.2f}'
+        .format(
+           epoch, EPOCHS,
+           d_loss.item(), g_loss.item(),
+           real_score.mean().item(),
+           fake_score.mean().item()
+        )
+    )
