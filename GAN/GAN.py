@@ -78,3 +78,19 @@ D = nn.Sequential(
     nn.Linear(256, 1),
     nn.Sigmoid()
 )
+
+
+# Send Weight Models to specified Model.
+D = D.to(DEVICE)
+G = G.to(DEVICE)
+
+# Error Function of Binary-Crossing Entropy Function and
+# the Adam Module which optimize Generator and Discriminator.
+criterion = nn.BCELoss()
+d_optimizer = optim.Adam(D.parameters(), lr=0.0002)
+g_optimizer = optim.Adam(G.parameters(), lr=0.0002)
+
+total_step = len(train_loader)
+for epoch in range(EPOCHS):
+    for i, (images, _) in enumerate(train_loader):
+        images = images.reshape(BATCH_SIZE, -1).to(DEVICE)
