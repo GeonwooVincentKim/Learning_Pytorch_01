@@ -136,7 +136,7 @@ for epoch in range(EPOCHS):
         g_optimizer.step()
 
         """
-            Check for Learnign Progress. (Inner Epoch)
+            Check for Learning Progress. (Inner Epoch)
         """
         print(
             'Inner_Epoch [{}/{}], '

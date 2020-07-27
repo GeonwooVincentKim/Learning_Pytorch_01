@@ -137,3 +137,28 @@ for epoch in range(EPOCHS):
         g_optimizer.zero_grad()
         d_loss.backward()
         d_optimizer.step()
+
+        """
+            Generator Recognition for Real-Images.
+        """
+        # Calculate the error as to
+        # whether the generator has cheated
+        # the discriminator. (random label input)
+        fake_images = G(z, g_label)
+        outputs = D(fake_images, g_label)
+        g_loss = criterion(outputs, real_labels)
+
+        # Proceed training procedure for Generator Model
+        # by importing Back-Propagation Algorithm.
+        d_optimizer.zero_grad()
+        g_optimizer.zero_grad()
+        g_loss.backward()
+        g_optimizer.step()
+
+    print("Epoch [{} / {}] "
+          "d_loss: {:.4f} - g_loss: {:.4f} "
+          "D(x): {:.2f} - D(G(z)): {:.2f}"
+          .format(epoch, EPOCHS,
+                  d_loss.item(), g_loss.item(),
+                  real_score.mean().item(),
+                  fake_score.mean().item()))
