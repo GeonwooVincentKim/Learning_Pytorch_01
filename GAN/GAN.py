@@ -51,3 +51,20 @@ train_loader = torch.utils.data.DataLoader(
     batch_size=BATCH_SIZE,
     shuffle=True
 )
+
+
+# Implement Generator and Discriminator
+# Result values are Equal to images dimensions,
+# 784 dimensions which has same dimension
+# with Fashion MNIST.
+
+
+# Generator
+G = nn.Sequential(
+    nn.Linear(64, 256),
+    nn.ReLU(),
+    nn.Linear(256, 256),
+    nn.ReLU(),
+    nn.Linear(256, 784),
+    nn.Tanh()
+)
