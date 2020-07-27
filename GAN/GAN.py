@@ -143,7 +143,7 @@ for epoch in range(EPOCHS):
             'Inner_d_loss: {:.4f}, Inner_g_loss: {:.4f}, '
             'Inner_D(x): {:.2f}, Inner_D(G(z)): {:.2f}'
             .format(
-                epoch, EPOCHS,
+                i, EPOCHS+100,
                 d_loss.item(), g_loss.item(),
                 real_score.mean().item(),
                 fake_score.mean().item()
