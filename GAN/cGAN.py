@@ -100,3 +100,17 @@ for epoch in range(EPOCHS):
         real_labels = torch.ones(BATCH_SIZE, 1).to(DEVICE)
         fake_labels = torch.ones(BATCH_SIZE, 1).to(DEVICE)
 
+        # Calculate Error that the Discriminator
+        # recognize Real-Image for real.
+        # (Input DataSet Label)
+        labels = labels.to(DEVICE)
+        outputs = D(images, labels)
+        d_loss_real = criterion(outputs, real_labels)
+        real_score = outputs
+
+        # Generate 'Fake-Image' by input Random-Tensor and
+        # Random-Label into 'Generator'.
+        z = torch.randn(BATCH_SIZE, 100).to(DEVICE)
+        g_label = torch.randint(0, 10, (BATCH_SIZE,)).to(DEVICE)
+        fake_images = G(z, g_label)
+
