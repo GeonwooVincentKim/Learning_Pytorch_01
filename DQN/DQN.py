@@ -75,6 +75,15 @@ class DQNAgent:
     """
         The Pytorch Tensor of max() function get arguments and 
         convert to Matrix Tensor shape into Max-Value and Min-Value(Index).
+        
+        Therefore, max(1)[1] is bring maximum value digit from Dimension-2.
+        For example, if the shape of code like this
+        -> torch.Tensor([1, 3, 2]).max(0)
+        
+        -> torch.return_types.max(
+            values=tensor(3.),
+            indices=tensor(1)
+        )
     """
     def act(self, state):
         eps_threshold = EPS_END + (EPS_START - EPS_END) * math.exp(-1. * self.steps_done / EPS_DECAY)
