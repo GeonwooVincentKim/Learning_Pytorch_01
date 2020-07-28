@@ -135,3 +135,26 @@ class DQNAgent:
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
+
+
+"""
+    Start Training
+"""
+env = gym.make('CartPole-v0')
+agent = DQNAgent()
+score_history = []
+
+"""
+    - 1. Create state that includes current Game Conditions
+    as Tensor, and use 
+"""
+for e in range(1, EPISODES+1):
+    state = env.reset()
+    steps = 0
+
+    while True:
+        env.render()
+        state = torch.FloatTensor([state])
+        action = agent.act(state)
+        next_state, reward, done, _ = env.step(action.item())
+
