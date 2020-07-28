@@ -146,7 +146,16 @@ score_history = []
 
 """
     - 1. Create state that includes current Game Conditions
-    as Tensor, and use 
+         as Tensor, and use 'act()' function, The Agent Action function.
+    
+    - 2. The agents that receive the status spit out the action 
+         according to the Epsilon Gridi algorithm.
+
+    - 3. The Action variable is a Pytorch Tensor.
+         Therefore, extract Agent action number by using
+         'item()' function and input into function,
+         display 'next_state', 'reward', and 'done' by Agent
+         actions.
 """
 for e in range(1, EPISODES+1):
     state = env.reset()
