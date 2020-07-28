@@ -113,4 +113,25 @@ class DQNAgent:
         rewards = torch.cat(rewards)
         next_states = torch.cat(next_states)
 
+        # Calculates the value of left-hand
+        # and right-hand behavior by passing
+        # the current Status through
+        # the Neural Network.
         current_q = self.model(states).gather(1, actions)
+
+        """
+            - 1.Future-Value is the expected value of reward 
+              that Agent can accept in the future.
+            
+            - 2. Discounting means that you can get 1 reward 
+              in the present and that you will value 
+              the current reward more when you get 1 
+              reward 1 in the future.
+        """
+        max_next_q = self.model(next_states).detach().max(1)[0]
+        expected_q = rewards + (GAMMA * max_next_q)
+
+        loss = F.mse_loss(current_q.squeeze(), expected_q)
+        self.optimizer.zero_grad()
+        loss.backward()
+        self.optimizer.step()
