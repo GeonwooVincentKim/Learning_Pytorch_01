@@ -167,3 +167,19 @@ for e in range(1, EPISODES+1):
         action = agent.act(state)
         next_state, reward, done, _ = env.step(action.item())
 
+        # Rewards Minus when the game is over.
+        if done:
+            reward = -1
+
+        agent.memorize(state, action, reward, next_state)
+        agent.learn()
+
+        state = next_state
+        steps += 1
+
+        # Show the game result when the game finished.
+        if done:
+            print("Episodes: {0} - Score: {1}".format(e, steps))
+            score_history.append(steps)
+            break
+
