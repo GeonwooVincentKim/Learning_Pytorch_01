@@ -148,6 +148,9 @@ for epoch in range(EPOCHS):
         outputs = D(fake_images, g_label)
         g_loss = criterion(outputs, real_labels)
 
+        """
+            Proceed training procedure by applying Back-Propagation Algorithm
+        """
         # Proceed training procedure for Generator Model
         # by importing Back-Propagation Algorithm.
         d_optimizer.zero_grad()
