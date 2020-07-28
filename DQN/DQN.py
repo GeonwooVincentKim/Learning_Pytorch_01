@@ -24,7 +24,16 @@ import torch.nn.functional as F
 from collections import deque
 import matplotlib.pyplot as plt
 
-
+"""
+    1. EPISODES
+    --> The number of Playing game.
+    2. EPSILON(EPS_START, EPS_END)
+    --> Rate of Agent acts randomly.
+    3. EPSILON Reduction ratio(EPS_DECAY)
+    --> Reducing Value of Epsilon value that
+    starting EPS_START and finishing as EPS_END.
+    4. GAMMA
+"""
 # Hyper-Parameter
 EPISODES = 50    # Number of Iterations Number
 EPS_START = 0.9  # The probability when Agent start to train randomly.
