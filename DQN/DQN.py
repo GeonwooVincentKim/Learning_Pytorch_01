@@ -44,3 +44,23 @@ EPS_END = 0.05   # The probability when Agent finish(terminate) to train randoml
 GAMMA = 0.8      # Discount Factor
 LR = 0.0001      # Learning Rate
 BATCH_SIZE = 64  # Batch-Size
+
+
+"""
+    DQN Agent
+"""
+
+
+class DQNAgent:
+    def __init__(self):
+        self.model = nn.Sequential(
+            nn.Linear(4, 256),
+            nn.ReLU(),
+            nn.Linear(256, 2)
+        )
+        self.optimizer = optim.Adam(self.model.parameters(), LR)
+        self.steps_done = 0
+
+        # Create Matrix(Array) for storage memory.
+        # Use Queue Data Structure to implement 'memory Class'.
+        self.memory = deque(maxlen=10000)
