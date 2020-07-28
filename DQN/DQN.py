@@ -72,5 +72,15 @@ class DQNAgent:
             torch.FloatTensor([next_state])
         ))
 
+    """
+        The Pytorch Tensor of max() function get arguments and 
+        convert to Matrix Tensor shape into Max-Value and Min-Value(Index).
+    """
     def act(self, state):
         eps_threshold = EPS_END + (EPS_START - EPS_END) * math.exp(-1. * self.steps_done / EPS_DECAY)
+        self.steps_done += 1
+
+        if random.random() > eps_threshold:
+            return self.model(state).data.max(1)[1].view(1, 1)
+        else:
+            return torch.LongTensor([[random.randrange(2)]])
