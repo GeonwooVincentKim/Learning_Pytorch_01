@@ -33,6 +33,9 @@ import matplotlib.pyplot as plt
     --> Reducing Value of Epsilon value that
     starting EPS_START and finishing as EPS_END.
     4. GAMMA
+    --> Gamma is the value of 
+    how the agent values current rewards 
+    over future rewards.
 """
 # Hyper-Parameter
 EPISODES = 50    # Number of Iterations Number
