@@ -93,3 +93,24 @@ class DQNAgent:
             return self.model(state).data.max(1)[1].view(1, 1)
         else:
             return torch.LongTensor([[random.randrange(2)]])
+
+    """
+        'learn()' function role in a training procedure
+        that Agent replay experience.
+    """
+    def learn(self):
+        if len(self.memory) < BATCH_SIZE:
+            return
+
+        batch = random.sample(self.memory, BATCH_SIZE)
+        states, actions, rewards, next_states = zip(*batch)
+
+        # We just prepared experience Sample
+        # for training, so now the Agent's Neural Network
+        # are going on training procedure.
+        states = torch.cat(states)
+        actions = torch.cat(actions)
+        rewards = torch.cat(rewards)
+        next_states = torch.cat(next_states)
+
+        current_q = self.model(states).gather(1, actions)
