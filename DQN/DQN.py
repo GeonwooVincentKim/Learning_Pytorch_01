@@ -38,13 +38,13 @@ import matplotlib.pyplot as plt
     over future rewards.
 """
 # Hyper-Parameter
-EPISODES = 50    # Number of Iterations Number
+EPISODES = 50  # Number of Iterations Number
 EPS_START = 0.9  # The probability when Agent start to train randomly.
-EPS_END = 0.05   # The probability when Agent finish(terminate) to train randomly.
-GAMMA = 0.8      # Discount Factor
-LR = 0.0001      # Learning Rate
+EPS_END = 0.05  # The probability when Agent finish(terminate) to train randomly.
+EPS_DECAY = 200  # A value that reduce the probability when Agent proceed to train randomly.
+GAMMA = 0.8  # Discount Factor
+LR = 0.0001  # Learning Rate
 BATCH_SIZE = 64  # Batch-Size
-
 
 """
     DQN Agent
@@ -64,3 +64,13 @@ class DQNAgent:
         # Create Matrix(Array) for storage memory.
         # Use Queue Data Structure to implement 'memory Class'.
         self.memory = deque(maxlen=10000)
+
+    def memorize(self, state, action, reward, next_state):
+        self.memory.append((
+            state, action,
+            torch.FloatTensor([reward]),
+            torch.FloatTensor([next_state])
+        ))
+
+    def act(self, state):
+        eps_threshold = EPS_END + (EPS_START - EPS_END) * math.exp(-1. * self.steps_done / EPS_DECAY)
