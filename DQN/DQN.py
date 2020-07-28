@@ -183,3 +183,7 @@ for e in range(1, EPISODES+1):
             score_history.append(steps)
             break
 
+
+plt.plot(score_history)
+plt.ylabel('score')
+plt.show()
