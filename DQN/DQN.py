@@ -23,3 +23,12 @@ import torch.optim as optim
 import torch.nn.functional as F
 from collections import deque
 import matplotlib.pyplot as plt
+
+
+# Hyper-Parameter
+EPISODES = 50    # Number of Iterations Number
+EPS_START = 0.9  # The probability when Agent start to train randomly.
+EPS_END = 0.05   # The probability when Agent finish(terminate) to train randomly.
+GAMMA = 0.8      # Discount Factor
+LR = 0.0001      # Learning Rate
+BATCH_SIZE = 64  # Batch-Size
