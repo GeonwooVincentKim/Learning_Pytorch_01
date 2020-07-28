@@ -13,6 +13,7 @@
     enforce in the Environment.
     - 4. Reward - It is a result or score by Agent's action.
 """
+# Installing gym by using pip Module.
 import gym
 import random
 import math
