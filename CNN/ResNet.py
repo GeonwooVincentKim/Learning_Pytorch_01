@@ -169,7 +169,6 @@ def train(model, train_loader, optimizer, epoch):
         optimizer.step()
 
 
-
 def test(model, test_loader):
     model.eval()
     test_loss = 0
